@@ -7,7 +7,6 @@ const router  = express.Router();
 module.exports = (knex) => {
 
   function formatGames(results) {
-    console.log(results);
     return _.chain(results)
       .groupBy('game_id')
       .map((games) => {
@@ -28,6 +27,17 @@ module.exports = (knex) => {
       .value();
   }
 
+  function userGames(userId) {
+    const query = knex('games')
+      .select('game_id')
+      .innerJoin('players', 'games.id', 'players.game_id')
+      .innerJoin("users", "users.id", "players.user_id")
+      .where('user_id', userId);
+
+    console.log(query.toString());
+    return query;
+  }
+
   function selectFull() {
     return knex('games')
       .select('created_at', 'updated_at', 'game_id', 'users.name as username', 'user_id', 'won')
@@ -39,7 +49,11 @@ module.exports = (knex) => {
     console.log("session:", req.session);
     // TODO: retrieve user id and filter query by user.
 
-    return selectFull().then((results) => {
+    const query = selectFull()
+    .where('game_id', 'in', userGames(req.session.user.id));
+    console.log(query.toString());
+
+    query.then((results) => {
       res.json(formatGames(results));
     });
   });
@@ -58,7 +72,6 @@ module.exports = (knex) => {
     return knex('games').insert({ created_at: now, updated_at: now})
     .returning('id')
     .then(insertedIds => {
-      console.log(insertedIds);
       return addPlayerToGame(userId, insertedIds[0]);
     });
   }
@@ -66,6 +79,7 @@ module.exports = (knex) => {
   router.get("/new", (req, res) => {
     // find and update a game if one exists
     // TODO: this should be in a transaction
+    const userId = req.session.user.id;
 
     const query = knex('games')
       .select('games.id as game_id', 'games.created_at')
@@ -73,15 +87,15 @@ module.exports = (knex) => {
       .innerJoin('players', 'games.id', 'players.game_id')
       .groupBy('games.id', 'games.created_at')
       .havingRaw('count(games.id) = ?', [1])
-      .orderBy('games.created_at');
+      .orderBy('games.created_at')
+      .where('game_id', 'not in', userGames(userId));
 
     return query
       .then(waitingGames => {
-        console.log(waitingGames);
         if(waitingGames.length === 0 ) {
-          return addPlayerToNewGame(1);
+          return addPlayerToNewGame(userId);
         } else {
-          return addPlayerToGame(2, waitingGames[0].game_id);
+          return addPlayerToGame(userId, waitingGames[0].game_id);
         }
       })
       .then(results => {
