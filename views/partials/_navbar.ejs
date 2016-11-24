@@ -2,11 +2,14 @@
   <h1>GOPS</h1>
 
   <% if (!username) { %>
-  <form method="POST" action="/api/users/:id">
-    <input name="username" type="text" placeholder="Username">
-    <input type="submit" value="Sign In">
-  </form>
+    <form method="POST" action="/api/users/">
+      <input type="submit" value="Sign In">
+      <input name="username" type="text" placeholder="Username">
+    </form>
   <% } %>
+
+
+
   <% if (username) { %>
       <h2>Hello, <%= username %></h2>
       <a class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">add</i></a>
