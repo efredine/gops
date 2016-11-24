@@ -14,7 +14,7 @@ module.exports = (knex) => {
     });
   });
 
-  router.post("/", (req, res) => {
+  router.post("/login", (req, res) => {
     knex
     .select("id", "name")
     .from("users")
@@ -30,6 +30,11 @@ module.exports = (knex) => {
     .catch((error) => {
       console.error(error);
     })
+  });
+
+  router.post("/logout", (req, res) => {
+    req.session.user = null;
+    res.redirect("/");
   });
 
   return router;
