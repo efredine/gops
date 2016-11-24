@@ -34,7 +34,6 @@ module.exports = (knex) => {
       .innerJoin("users", "users.id", "players.user_id")
       .where('user_id', userId);
 
-    console.log(query.toString());
     return query;
   }
 
@@ -46,12 +45,9 @@ module.exports = (knex) => {
   }
 
   router.get("/", (req, res) => {
-    console.log("session:", req.session);
-    // TODO: retrieve user id and filter query by user.
 
     const query = selectFull()
     .where('game_id', 'in', userGames(req.session.user.id));
-    console.log(query.toString());
 
     query.then((results) => {
       res.json(formatGames(results));
@@ -59,7 +55,6 @@ module.exports = (knex) => {
   });
 
   function addPlayerToGame(userId, gameId) {
-    console.log('Adding player to existing game');
     return knex('players')
     .insert({user_id: userId, game_id: gameId, won:false})
     .returning(['user_id', 'game_id', 'id as player_id']);
@@ -67,7 +62,6 @@ module.exports = (knex) => {
 
   function addPlayerToNewGame(userId) {
   // create a new waiting game by inserting into games and players tables
-    console.log('Creating new game');
     const now = new Date();
     return knex('games').insert({ created_at: now, updated_at: now})
     .returning('id')
