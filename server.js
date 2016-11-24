@@ -56,7 +56,6 @@ app.use("/api/users", usersRoutes(knex));
 
 // Home page
 app.get("/", (req, res) => {
-  console.log('Res', res.locals.user);
   res.render("index");
 });
 
