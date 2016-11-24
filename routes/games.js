@@ -18,6 +18,13 @@ module.exports = (knex) => {
     });
   });
 
+  function addPlayerToGame(userId, gameId) {
+    console.log('Adding player to existing game');
+    return knex('players')
+    .insert({user_id: userId, game_id: gameId, won:false})
+    .returning(['user_id', 'game_id', 'id as player_id']);
+  }
+
   function addPlayerToNewGame(userId) {
   // create a new waiting game by inserting into games and players tables
     console.log('Creating new game');
@@ -26,17 +33,8 @@ module.exports = (knex) => {
     .returning('id')
     .then(insertedIds => {
       console.log(insertedIds);
-      return knex('players')
-      .insert({user_id: userId, game_id: insertedIds[0], won:false})
-      .returning('id');
+      return addPlayerToGame(userId, insertedIds[0]);
     });
-  }
-
-  function addPlayerToExistingGame(userId, gameId) {
-    console.log('Adding player to existing game');
-    return knex('players')
-    .insert({user_id: userId, game_id: gameId, won:false})
-    .returning('id');
   }
 
   router.get("/new", (req, res) => {
@@ -57,11 +55,11 @@ module.exports = (knex) => {
         if(waitingGames.length === 0 ) {
           return addPlayerToNewGame(1);
         } else {
-          return addPlayerToExistingGame(2, waitingGames[0].game_id);
+          return addPlayerToGame(2, waitingGames[0].game_id);
         }
       })
-      .then(ids => {
-        res.status(200).json({player_id: ids[0]});
+      .then(results => {
+        res.status(200).json(results);
       })
       .catch(err => {
         // throw(err);
