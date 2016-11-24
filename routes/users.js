@@ -20,7 +20,11 @@ module.exports = (knex) => {
     .from("users")
     .where("users.name", "=", req.body.username)
     .then((user) => {
-      req.session.username = user[0].name;
+      if(req.body.username === user[0].name) {
+        req.session.user = user[0];
+      } else {
+        req.session.user = null;
+      }
       res.redirect('/');
     })
     .catch((error) => {
