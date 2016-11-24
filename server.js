@@ -21,8 +21,8 @@ app.use(cookieSession ({
 }));
 
 app.use((req, res, next) => {
-  if(req.session.username) {
-    let currentUser = req.session.username;
+  if(req.session.user) {
+    let currentUser = req.session.user;
     res.locals.username = currentUser;
   } else {
     res.locals.username = null;
