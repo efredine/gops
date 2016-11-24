@@ -1,10 +1,32 @@
 "use strict";
 
 const express = require('express');
+const _ = require('underscore');
 const router  = express.Router();
 
-
 module.exports = (knex) => {
+
+  function formatGames(results) {
+    console.log(results);
+    return _.chain(results)
+      .groupBy('game_id')
+      .map((games) => {
+        const users = games.map(x => {
+          return {
+            user_id: x.user_id,
+            username: x.username,
+            won: x.won
+          };
+        });
+        return {
+          game_id: games[0].game_id,
+          created_at: games[0].created_at,
+          updated_at: games[0].updated_at,
+          users: users
+        };
+      })
+      .value();
+  }
 
   function selectFull() {
     return knex('games')
@@ -18,7 +40,7 @@ module.exports = (knex) => {
     // TODO: retrieve user id and filter query by user.
 
     return selectFull().then((results) => {
-      res.json(results);
+      res.json(formatGames(results));
     });
   });
 
@@ -63,7 +85,11 @@ module.exports = (knex) => {
         }
       })
       .then(results => {
-        res.status(200).json(results);
+        return selectFull()
+        .where('games.id', results[0].game_id)
+        .then(results => {
+          res.status(200).json(formatGames(results));
+        });
       })
       .catch(err => {
         // throw(err);
@@ -76,7 +102,7 @@ module.exports = (knex) => {
     selectFull()
     .where('games.id', req.params.id)
     .then(results => {
-      res.json(results);
+      res.json(formatGames(results));
     });
   });
 
