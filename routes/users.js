@@ -14,5 +14,10 @@ module.exports = (knex) => {
     });
   });
 
+  router.post("/:id", (req, res) => {
+    req.session.username = req.body.username;
+    res.redirect('/');
+  });
+
   return router;
 }
