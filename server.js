@@ -23,9 +23,9 @@ app.use(cookieSession ({
 app.use((req, res, next) => {
   if(req.session.user) {
     let currentUser = req.session.user;
-    res.locals.username = currentUser;
+    res.locals.user = currentUser;
   } else {
-    res.locals.username = null;
+    res.locals.user = null;
   }
   next();
 });
@@ -56,7 +56,7 @@ app.use("/api/users", usersRoutes(knex));
 
 // Home page
 app.get("/", (req, res) => {
-  console.log('Res', res.locals.username);
+  console.log('Res', res.locals.user);
   res.render("index");
 });
 
