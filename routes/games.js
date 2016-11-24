@@ -3,17 +3,21 @@
 const express = require('express');
 const router  = express.Router();
 
+
 module.exports = (knex) => {
+
+  function selectFull() {
+    return knex('games')
+      .select('created_at', 'updated_at', 'game_id', 'users.name as username', 'user_id', 'won')
+      .innerJoin('players', 'games.id', 'players.game_id')
+      .innerJoin("users", "users.id", "players.user_id");
+  }
 
   router.get("/", (req, res) => {
     console.log("session:", req.session);
     // TODO: retrieve user id and filter query by user.
-    const query = knex('games')
-      .select('created_at', 'updated_at', 'game_id', 'users.name as username', 'user_id', 'won')
-      .innerJoin('players', 'games.id', 'players.game_id')
-      .innerJoin("users", "users.id", "players.user_id");
 
-    return query.then((results) => {
+    return selectFull().then((results) => {
       res.json(results);
     });
   });
@@ -66,6 +70,14 @@ module.exports = (knex) => {
         console.log(err);
         res.status(500).send("Oops");
       });
+  });
+
+  router.get("/:id", (req, res) => {
+    selectFull()
+    .where('games.id', req.params.id)
+    .then(results => {
+      res.json(results);
+    });
   });
 
   return router;
