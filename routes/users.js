@@ -14,9 +14,22 @@ module.exports = (knex) => {
     });
   });
 
-  router.post("/:id", (req, res) => {
-    req.session.username = req.body.username;
-    res.redirect('/');
+  router.post("/", (req, res) => {
+    knex
+    .select("id", "name")
+    .from("users")
+    .where("users.name", "=", req.body.username)
+    .then((user) => {
+      if(req.body.username === user[0].name) {
+        req.session.user = user[0];
+      } else {
+        req.session.user = null;
+      }
+      res.redirect('/');
+    })
+    .catch((error) => {
+      console.error(error);
+    })
   });
 
   return router;
