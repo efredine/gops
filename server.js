@@ -15,6 +15,22 @@ const knex          = require("knex")(knexConfig[ENV]);
 const morgan        = require('morgan');
 const knexLogger    = require('knex-logger');
 
+app.use(cookieSession ({
+  name:'session',
+  secret: 'secret garden'
+}));
+
+app.use((req, res, next) => {
+  if(req.session.username) {
+    let currentUser = req.session.username;
+    // req.currentUser = currentUser;
+    res.locals.currentUser = currentUser;
+  } else {
+    res.locals.username = null;
+  }
+  next();
+});
+
 // Seperated Routes for each Resource
 const usersRoutes = require("./routes/users");
 const gamesRoutes = require('./routes/games');
@@ -37,17 +53,13 @@ app.use("/styles", sass({
 }));
 app.use(express.static("public"));
 
-app.use(cookieSession ({
-  name:'session',
-  secret: 'secret garden'
-}));
-
 // Mount all resource routes
 app.use("/api/users", usersRoutes(knex));
 app.use("/api/games", gamesRoutes(knex));
 
 // Home page
 app.get("/", (req, res) => {
+  console.log('Res', res.locals.currentUser)
   res.render("index");
 });
 
