@@ -4,4 +4,27 @@ body {
   h1 {
     color: #244751;
   }
+
+  .navbar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 50px 10px;
+  overflow: auto;
+
+    form {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+    }
+
+    form input[type="submit" i] {
+      padding: 5px 20px;
+      color: black;
+    }
+  }
+
+
 }
