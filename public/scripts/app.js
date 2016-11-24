@@ -13,7 +13,6 @@ $(() => {
     url: "/api/games"
   }).done((games) => {
     games.forEach(game => {
-      console.log(game);
       $("<div>")
       .text(`${game.created_at}, game_id: ${game.game_id}, user: ${game.username}, won: ${game.won}`)
       .appendTo($("body"));
