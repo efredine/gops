@@ -1,0 +1,14 @@
+<nav class="navbar">
+  <h1>Hello, <%= username %></h1>
+  <form method="POST" action="/api/users/:id">
+    <input type="submit" value="Sign In">
+    <input name="username" type="text" placeholder="Username">
+  </form>
+  <% if (username) { %>
+    <div>
+        <a href="/urls/new">Start A New Game</a>
+    </div>
+  <% } %>
+</nav>
+
+
