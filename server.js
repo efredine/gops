@@ -9,16 +9,11 @@ const bodyParser    = require("body-parser");
 const sass          = require("node-sass-middleware");
 const app           = express();
 const cookieSession = require('cookie-session');
-
 const knexConfig    = require("./knexfile");
 const knex          = require("knex")(knexConfig[ENV]);
 const morgan        = require('morgan');
 const knexLogger    = require('knex-logger');
-
-app.use(cookieSession ({
-  name:'session',
-  secret: 'secret garden'
-}));
+app.use(cookieSession ({name:'session', secret: 'secret garden'}));
 
 app.use((req, res, next) => {
   if(req.session.user) {
@@ -58,9 +53,16 @@ app.use("/api/games", gamesRoutes(knex));
 
 // Home page
 app.get("/", (req, res) => {
+  console.dir(`"Res + ${res.locals.username}"`, {colors:true});
   res.render("index");
 });
 
+// Game Interface
+app.get("/gameui", (req, res) => {
+  console.dir(`"Res + ${res.locals.username}"`, {colors:true});
+  res.render("gameui");
+});
+
 app.listen(PORT, () => {
-  console.log("Example app listening on port " + PORT);
+  console.dir(`"Example app listening on port ${PORT}"`, {colors:true});
 });
