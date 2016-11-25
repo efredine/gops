@@ -13,6 +13,7 @@
 
     <link rel="stylesheet" href="/styles/nav.css" type="text/css">
 
+    <script type="text/javascript" src="/navbar.js"></script>
     <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
     <script type="text/javascript" src="/scripts/app.js"></script>
   </head>
@@ -34,6 +35,23 @@
      </script>
 
   </section>
+  <script type="text/javascript">
+
+   $(function() {
+    alert("HELLO!")
+     $('.button-collapse').sideNav({
+      menuWidth: 300, // Default is 240
+      edge: 'right', // Choose the horizontal origin
+      closeOnClick: true, // Closes side-nav on <a> clicks, useful for Angular/Meteor
+      draggable: true // Choose whether you can drag to open on touch screens
+    }
+  );
+});
+
+
+
+
+  </script>
    <!-- Compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.6/handlebars.min.js"></script>
