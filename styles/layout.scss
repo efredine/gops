@@ -6,15 +6,20 @@ html {
     height: 100%;
     margin: 0;
     .navbar {
+      align-items: center;
       display: flex;
       flex-direction: row;
-      align-items: center;
+      height: 64px;
       justify-content: space-between;
-      width: 100%;
-      padding: 50px 10px;
       overflow: auto;
-      h1 {
+      padding: 10px 10px;
+      width: 100%;
+      .title {
         color: #212121;
+        font-size: 30px
+      }
+      .intro {
+        font-size: 20px;
       }
       form {
         display: flex;
