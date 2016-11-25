@@ -52,7 +52,7 @@ module.exports = (knex) => {
     });
   }
 
-  function formatGames(results, forUserId) {
+  function formatGames(results, forUserId, render = false) {
     return _.chain(results)
       .groupBy('game_id')
       .map((games) => {
@@ -74,15 +74,23 @@ module.exports = (knex) => {
             return 1;
           }
         });
+        let game = getGameState(games[0].game_state, forUserId);
+        if(render && game ) {
+          game = game.getStateForUserId(forUserId);
+        }
         return {
           game_id: games[0].game_id,
           created_at: games[0].created_at,
           updated_at: games[0].updated_at,
-          game_state: getGameState(games[0].game_state, forUserId),
+          game_state: game,
           users: users
         };
       })
       .value();
+  }
+
+  function hasUser(gameObject, userId) {
+    return gameObject.users.some(u => u.user_id === userId);
   }
 
   function selectFull() {
@@ -90,14 +98,6 @@ module.exports = (knex) => {
       .select('created_at', 'updated_at', 'game_id', 'users.name as username', 'user_id', 'won', 'game_state')
       .innerJoin('players', 'games.id', 'players.game_id')
       .innerJoin("users", "users.id", "players.user_id");
-  }
-
-  function getGame(gameId, userId) {
-    return selectFull()
-      .where('games.id', gameId)
-      .then(results => {
-        return formatGames(results, userId)[0];
-      });
   }
 
   function userGames(userId) {
@@ -110,13 +110,30 @@ module.exports = (knex) => {
     return query;
   }
 
+  function getGame(gameId, userId) {
+    return selectFull()
+      .where('games.id', gameId)
+      .then(results => {
+        if(results.length > 0) {
+          let gameObject = formatGames(results, userId)[0];
+          if(hasUser(gameObject, userId)) {
+            return gameObject;
+          } else {
+            return Promise.reject(new Error("Not allowed."));
+          }
+        } else {
+          return Promise.reject(new Error("Not found"));
+        }
+      });
+  }
+
   router.get("/", (req, res) => {
 
     const query = selectFull()
     .where('game_id', 'in', userGames(req.session.user.id));
 
     query.then((results) => {
-      res.json(formatGames(results, req.session.user.id));
+      res.json(formatGames(results, req.session.user.id, true));
     });
   });
 
@@ -169,22 +186,20 @@ module.exports = (knex) => {
       .catch(err => {
         // throw(err);
         console.log(err);
-        res.status(500).send("Oops");
+        res.status(500).send(err.toString());
       });
   });
 
   router.get("/:id", (req, res) => {
     const gameId = req.params.id;
     const userId = req.session.user.id;
-    getGame(gameId, userId)
+    getGame(gameId, userId, true)
     .then(gameObject => {
-      // show the user just their side of the game
-      gameObject.game_state =  gameObject.game_state.getStateForUserId(userId);
       res.json(gameObject);
     })
     .catch(err => {
       console.log(err);
-      res.status(500).send("Oops");
+      res.status(500).send(err.toString());
     });
   });
 
@@ -202,7 +217,7 @@ module.exports = (knex) => {
     })
     .catch(err => {
       console.log(err);
-      res.status(500).send("Oops");
+      res.status(500).send(err.toString());
     });
   });
 
@@ -225,7 +240,7 @@ module.exports = (knex) => {
     })
     .catch(err => {
       console.log(err);
-      res.status(500).send("Oops");
+      res.status(500).send(err.toString());
     });
   });
 

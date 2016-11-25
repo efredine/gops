@@ -224,7 +224,7 @@ Game.prototype.updateScores = function() {
 Game.prototype.getStateForUserId = function(userId) {
   const indexOfUser = this.gameState.users.findIndex(x => x.user_id === userId);
   // invalid userId for this game
-  if(indexOfUser < 0) { return false; }
+  if(indexOfUser < 0) { return null; }
 
   const result = {};
   const usersCopy = this.gameState.users.slice();
