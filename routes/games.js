@@ -127,15 +127,13 @@ module.exports = (knex) => {
       });
   }
 
-  router.get("/", (req, res) => {
-
-    const query = selectFull()
-    .where('game_id', 'in', userGames(req.session.user.id));
-
-    query.then((results) => {
-      res.json(formatGames(results, req.session.user.id, true));
+  function newGameState(gameId, userId, numberOfCardsInGame = 13) {
+    return getGame(gameId, userId)
+    .then(gameObject => {
+      const gameState =  Game.newGame(gameObject.users, numberOfCardsInGame);
+      return updateGameState(gameId, gameState);
     });
-  });
+  }
 
   function addPlayerToGame(userId, gameId) {
     return knex('players')
@@ -149,45 +147,19 @@ module.exports = (knex) => {
     return knex('games').insert({ created_at: now, updated_at: now})
     .returning('id')
     .then(insertedIds => {
+      console.log('Creating new game for:', insertedIds[0], insertedIds);
       return addPlayerToGame(userId, insertedIds[0]);
     });
   }
 
-  router.get("/new", (req, res) => {
-    // find and update a game if one exists
-    // TODO: this should be in a transaction
-    const userId = req.session.user.id;
+  router.get("/", (req, res) => {
 
-    const query = knex('games')
-      .select('games.id as game_id', 'games.created_at')
-      .count('games.id')
-      .innerJoin('players', 'games.id', 'players.game_id')
-      .groupBy('games.id', 'games.created_at')
-      .havingRaw('count(games.id) = ?', [1])
-      .orderBy('games.created_at')
-      .where('game_id', 'not in', userGames(userId));
+    const query = selectFull()
+    .where('game_id', 'in', userGames(req.session.user.id));
 
-    return query
-      .then(waitingGames => {
-        if(waitingGames.length === 0 ) {
-          return addPlayerToNewGame(userId)
-          .then(results => {
-            let gameId = results[0].game_id;
-            res.redirect('/api/games/' + gameId);
-          });
-        } else {
-          // If there is already a waiting game, pick the first one and add
-          // this player to it.
-          let gameId = waitingGames[0].game_id;
-          return addPlayerToGame(userId, gameId)
-            .then(res.redirect('/api/games/' + gameId + '/newGame'));
-        }
-      })
-      .catch(err => {
-        // throw(err);
-        console.log(err);
-        res.status(500).send(err.toString());
-      });
+    query.then((results) => {
+      res.json(formatGames(results, req.session.user.id, true));
+    });
   });
 
   router.get("/:id", (req, res) => {
@@ -203,25 +175,51 @@ module.exports = (knex) => {
     });
   });
 
-  router.get("/:id/newGame", (req, res) => {
+  router.post("/new", (req, res) => {
+    // find and update a game if one exists
+    // TODO: this should be in a transaction
     const userId = req.session.user.id;
-    const gameId = req.params.id;
-    const numberOfCardsInGame = req.query.cards ? req.query.cards : 13;
-    getGame(gameId, userId)
-    .then(gameObject => {
-      const gameState =  Game.newGame(gameObject.users, numberOfCardsInGame);
-      updateGameState(gameId, gameState)
-      .then(result => {
-        res.redirect('/api/games/' + gameId);
-      });
+
+    const query = knex('games')
+      .select('games.id as game_id', 'games.created_at')
+      .count('games.id')
+      .innerJoin('players', 'games.id', 'players.game_id')
+      .groupBy('games.id', 'games.created_at')
+      .havingRaw('count(games.id) = ?', [1])
+      .orderBy('games.created_at')
+      .where('game_id', 'not in', userGames(userId));
+
+    return query
+    .then(waitingGames => {
+      if(waitingGames.length === 0 ) {
+        return addPlayerToNewGame(userId)
+        .then(results => {
+          let gameId = results[0].game_id;
+          console.log('About to redirect to: ', gameId);
+          res.redirect('/api/games/' + gameId);
+        });
+      } else {
+        // If there is already a waiting game, pick the first one and add
+        // this player to it.
+        let gameId = waitingGames[0].game_id;
+        const numberOfCardsInGame = req.query.cards ? req.query.cards : 13;
+        return addPlayerToGame(userId, gameId)
+        .then(result => {
+          return newGameState(gameId, userId, numberOfCardsInGame)
+        })
+        .then(result => {
+          res.redirect('/api/games/' + gameId);
+        });
+      }
     })
     .catch(err => {
+      // throw(err);
       console.log(err);
       res.status(500).send(err.toString());
     });
   });
 
-  router.get("/:id/playCard/:card", (req, res) => {
+  router.post("/:id/playCard/:card", (req, res) => {
     const userId = req.session.user.id;
     const gameId = req.params.id;
     const cardToPlay = parseInt(req.params.card, 10);
