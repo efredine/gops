@@ -2,9 +2,20 @@
 
 const express = require('express');
 const _ = require('underscore');
+const Game = require('./game_state').Game;
 const router  = express.Router();
 
 module.exports = (knex) => {
+
+  function getGameState(gameStateString, userId) {
+    if(gameStateString) {
+      let gameState = JSON.parse(gameStateString);
+      let game = new Game(gameState);
+      return game.getStateForUserId(userId);
+    } else {
+      return null;
+    }
+  }
 
   function formatGames(results, forUserId) {
     return _.chain(results)
@@ -32,6 +43,7 @@ module.exports = (knex) => {
           game_id: games[0].game_id,
           created_at: games[0].created_at,
           updated_at: games[0].updated_at,
+          game_state: getGameState(games[0].game_state, forUserId),
           users: users
         };
       })
@@ -50,7 +62,7 @@ module.exports = (knex) => {
 
   function selectFull() {
     return knex('games')
-      .select('created_at', 'updated_at', 'game_id', 'users.name as username', 'user_id', 'won')
+      .select('created_at', 'updated_at', 'game_id', 'users.name as username', 'user_id', 'won', 'game_state')
       .innerJoin('players', 'games.id', 'players.game_id')
       .innerJoin("users", "users.id", "players.user_id");
   }
@@ -98,17 +110,19 @@ module.exports = (knex) => {
     return query
       .then(waitingGames => {
         if(waitingGames.length === 0 ) {
-          return addPlayerToNewGame(userId);
+          return addPlayerToNewGame(userId)
+          .then(results => {
+            return selectFull()
+              .where('games.id', results[0].game_id)
+              .then(results => {
+                res.status(200).json(formatGames(results, userId));
+              });
+          });
         } else {
-          return addPlayerToGame(userId, waitingGames[0].game_id);
+          let gameId = waitingGames[0].game_id;
+          return addPlayerToGame(userId, gameId)
+            .then(res.redirect('/api/games/' + gameId + '/newGame'));
         }
-      })
-      .then(results => {
-        return selectFull()
-        .where('games.id', results[0].game_id)
-        .then(results => {
-          res.status(200).json(formatGames(results, userId));
-        });
       })
       .catch(err => {
         // throw(err);
@@ -121,7 +135,26 @@ module.exports = (knex) => {
     selectFull()
     .where('games.id', req.params.id)
     .then(results => {
-      res.json(formatGames(results, req.params.user.id));
+      console.log(results);
+      res.json(formatGames(results, req.session.user.id)[0]);
+    });
+  });
+
+  router.get("/:id/newGame", (req, res) => {
+    const userId = req.session.user.id;
+    selectFull()
+    .where('games.id', req.params.id)
+    .then(results => {
+      const gameObject = formatGames(results, userId)[0];
+      const gameState =  Game.newGame(gameObject.users, 3);
+      console.log(gameState);
+      gameObject.game_state = gameState.getStateForUserId(userId);
+      return knex('games')
+        .update({game_state: JSON.stringify(gameState.gameState)})
+        .where('id', req.params.id)
+        .then((result) => {
+          res.json(gameObject);
+        });
     });
   });
 
