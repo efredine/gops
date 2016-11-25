@@ -106,8 +106,12 @@ Game.prototype.playCard = function(userId, cardToPlay) {
 Game.prototype.updateScores = function() {
   this.gameState.users.forEach((user, index) => {
     user.score = turns.reduce((score, t) => {
-      if(t.cardsPlayed.max() === t.cardsPlayed[index]) {
-        return score + t.prize;
+      let thisUsersCard = t.cardsPlayed[index];
+      if(t.cardsPlayed.max() === thisUsersCard) {
+        // user had a winning hand, now check to see if the
+        // prize needs to be shared
+        let winningCards = t.cardsPlayed.filter(x => x === thisUsersCard);
+        return score + t.prize / winningCards.length;
       }
       return score;
     }, 0);
