@@ -1,3 +1,7 @@
+$primary-color: #333;
+$primary-color: #8d6e63;
+
+
 html {
   height: 100%;
   overflow: hidden;
@@ -6,6 +10,7 @@ html {
     height: 100%;
     margin: 0;
     .navbar {
+      background-color: $primary-color;
       align-items: center;
       display: flex;
       flex-direction: row;
@@ -27,6 +32,10 @@ html {
         flex-direction: row;
         align-items: center;
       }
+      ul {
+        color: $primary-color;
+      }
+
     }
     #game-container {
       background-color: #efebe9;
@@ -36,4 +45,10 @@ html {
       width: 90%
     }
   }
+}
+
+@media only screen and (min-width: 993px) {
+  nav a.button-collapse {
+      display: block !important;
+    }
 }

@@ -1,8 +1,9 @@
-<nav class="navbar brown lighten-2">
+<nav class="navbar">
   <p class="title">GOPS</p>
 
   <ul id="slide-out" class="side-nav">
-    <% if (!user) { %>
+
+ <% if (!user) { %>
       <p class="intro">Hello</p>
       <li><div class="divider"></div></li>
       <form method="POST" action="/api/users/login">
