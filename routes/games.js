@@ -6,7 +6,7 @@ const router  = express.Router();
 
 module.exports = (knex) => {
 
-  function formatGames(results) {
+  function formatGames(results, forUserId) {
     return _.chain(results)
       .groupBy('game_id')
       .map((games) => {
@@ -16,6 +16,17 @@ module.exports = (knex) => {
             username: x.username,
             won: x.won
           };
+        })
+        .sort((a, b) => {
+          // always put this user id in front
+          if(a.user_id === b._user_id) {
+            return 0;
+          }
+          if(a.user_id === forUserId) {
+            return -1;
+          } else {
+            return 1;
+          }
         });
         return {
           game_id: games[0].game_id,
@@ -50,7 +61,7 @@ module.exports = (knex) => {
     .where('game_id', 'in', userGames(req.session.user.id));
 
     query.then((results) => {
-      res.json(formatGames(results));
+      res.json(formatGames(results, req.session.user.id));
     });
   });
 
@@ -96,7 +107,7 @@ module.exports = (knex) => {
         return selectFull()
         .where('games.id', results[0].game_id)
         .then(results => {
-          res.status(200).json(formatGames(results));
+          res.status(200).json(formatGames(results, userId));
         });
       })
       .catch(err => {
@@ -110,7 +121,7 @@ module.exports = (knex) => {
     selectFull()
     .where('games.id', req.params.id)
     .then(results => {
-      res.json(formatGames(results));
+      res.json(formatGames(results, req.params.user.id));
     });
   });
 
