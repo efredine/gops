@@ -110,12 +110,12 @@ module.exports = (knex) => {
     return query;
   }
 
-  function getGame(gameId, userId) {
+  function getGame(gameId, userId, render = false) {
     return selectFull()
       .where('games.id', gameId)
       .then(results => {
         if(results.length > 0) {
-          let gameObject = formatGames(results, userId)[0];
+          let gameObject = formatGames(results, userId, render)[0];
           if(hasUser(gameObject, userId)) {
             return gameObject;
           } else {
