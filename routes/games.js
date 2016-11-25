@@ -11,10 +11,19 @@ module.exports = (knex) => {
     if(gameStateString) {
       let gameState = JSON.parse(gameStateString);
       let game = new Game(gameState);
-      return game.getStateForUserId(userId);
+      return game;
     } else {
       return null;
     }
+  }
+
+  function updateGameState(gameId, gameState) {
+    return knex('games')
+    .update({game_state: JSON.stringify(gameState.gameState)})
+    .where('id', gameId)
+    .then((result) => {
+      return result;
+    });
   }
 
   function formatGames(results, forUserId) {
@@ -139,8 +148,12 @@ module.exports = (knex) => {
   });
 
   router.get("/:id", (req, res) => {
-    getGame(req.params.id, req.session.user.id)
+    const gameId = req.params.id;
+    const userId = req.session.user.id;
+    getGame(gameId, userId)
     .then(gameObject => {
+      // show the user just their side of the game
+      gameObject.game_state =  gameObject.game_state.getStateForUserId(userId);
       res.json(gameObject);
     })
     .catch(err => {
@@ -155,19 +168,38 @@ module.exports = (knex) => {
     getGame(gameId, userId)
     .then(gameObject => {
       const gameState =  Game.newGame(gameObject.users, 3);
-      gameObject.game_state = gameState.getStateForUserId(userId);
-      return knex('games')
-        .update({game_state: JSON.stringify(gameState.gameState)})
-        .where('id', gameId)
-        .then((result) => {
-          res.json(gameObject);
-        });
+      updateGameState(gameId, gameState)
+      .then(result => {
+        res.redirect('/api/games/' + gameId);
+      });
     })
     .catch(err => {
       console.log(err);
       res.status(500).send("Oops");
     });
+  });
 
+  router.get("/:id/playCard/:card", (req, res) => {
+    const userId = req.session.user.id;
+    const gameId = req.params.id;
+    const cardToPlay = parseInt(req.params.card, 10);
+    getGame(gameId, userId)
+    .then(gameObject => {
+      const gameState = gameObject.game_state;
+      const playedOk = gameState.playCard(userId, cardToPlay);
+      if(playedOk) {
+        updateGameState(gameId, gameState)
+        .then(result => {
+          res.redirect("/api/games/" + gameId);
+        });
+      } else {
+        res.status(403).send("Not allowed.");
+      }
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).send("Oops");
+    });
   });
 
   return router;
