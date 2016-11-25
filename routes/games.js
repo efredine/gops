@@ -1,5 +1,31 @@
 "use strict";
 
+/**
+ * Provides routes for playing games.
+ * Mounted at /api/games.
+ * Assumes userId is availaible in req.sessions.user.id.
+ *
+ * GET /api/games retuns all games for the currently logged in user.
+ * TODO: add some filtering on this so only active or waiting games are shown?
+ *
+ * GET /api/game/:id  returns the game for the given id
+ *
+ * GET /api/game/new  Creates a new game for the user.  This will either create a new waiting game
+ *   or join an existing waiting game.
+ * TODO: turn this into a POST.
+ *
+ * GET /api/game/:id/newGame Creates a new game for this game.  Mostly intended for internal use and testing.
+ *   Accepts an optional query parameter ?cards=n  which lets you specify the number of cards in the game.
+ *   Defaults to 13 cards.  But running games with fewer cards is useful for testing.
+ * TODO: turn this into a PUT.
+ *
+ * GET /api/game/:id/playCard/:card Plays a card for the logged in user.  It must be a valid card for the user
+ *   to play (i.e. it has to be in their hand) or it returns 403 forbidden.
+ * TODO: this should be a POST.
+ *
+ * All methods return the updated game object including the detailed game_state object.
+ *
+ */
 const express = require('express');
 const _ = require('underscore');
 const Game = require('./game_state').Game;

@@ -1,19 +1,63 @@
-const shuffle = require('knuth-shuffle').knuthShuffle;
-const DEFAULT_NUMBER_OF_CARDS = 10;
+/**
+ * Keeps track of the game state for GOPS (Goofspeil).
+ *
+ * An example of a completed game, that was played with three cards between 2 users.
+ * {
+    "game_id": 47,
+    "created_at": "2016-11-25T16:56:38.973Z",
+    "updated_at": "2016-11-25T16:56:38.973Z",
+    "game_state": {
+      "gameState": {
+        "users": [
+          {
+            "user_id": 4,
+            "username": "Alice",
+            "won": false,
+            "score": 2,
+            "cardsInHand": [
 
-function arrayOfNumbers(n) {
-  const result = [];
-  for(let i = 0; i < n; i++) {
-    result.push(i + 1);
-  }
-  return result;
-}
+            ]
+          },
+          {
+            "user_id": 6,
+            "username": "Charlie",
+            "won": false,
+            "score": 4,
+            "cardsInHand": [
 
-function orderArray(arr, index) {
-  const arrCopy = arr.slice();
-  const result = arrCopy.splice(index, 1);
-  return result.concat(arrCopy);
-}
+            ]
+          }
+        ],
+        "prize": [
+
+        ],
+        "turns": [
+          {
+            "prize": 1,
+            "cardsPlayed": [
+              1,
+              2
+            ]
+          },
+          {
+            "prize": 3,
+            "cardsPlayed": [
+              2,
+              3
+            ]
+          },
+          {
+            "prize": 2,
+            "cardsPlayed": [
+              3,
+              1
+            ]
+          }
+        ],
+        "completed": true
+      }
+    }
+ */
 
 const sampleGameState = {
   // first user is the current user - the one playing the game.
@@ -48,10 +92,45 @@ const sampleGameState = {
   completed: false
 };
 
+const shuffle = require('knuth-shuffle').knuthShuffle;
+const DEFAULT_NUMBER_OF_CARDS = 10;
+
+/**
+ * Returns an array of n numbers ranging from 1 to n.
+ */
+function arrayOfNumbers(n) {
+  const result = [];
+  for(let i = 0; i < n; i++) {
+    result.push(i + 1);
+  }
+  return result;
+}
+
+/**
+ * Re-orders an array so that the element at the index is now at the front of the array.
+ * @param  {Array} arr   The array to re-order.
+ * @param  {Number} index Index of the element that should be at the head.
+ * @return {Array}       A copy of the array that has been re-ordered.
+ */
+function orderArray(arr, index) {
+  const arrCopy = arr.slice();
+  const result = arrCopy.splice(index, 1);
+  return result.concat(arrCopy);
+}
+/**
+ * The Game class exported by this module.
+ * @param {Game} gameState Constructor for Game class.
+ */
 function Game(gameState) {
   this.gameState = gameState;
 }
 
+/**
+ * Creates and returns a new Game object with the provided parameters.
+ * @param  {Array of User Objects} users Included in this game
+ * @param  {Number} n     The number of cards in the game.
+ * @return {Game}       Initialized game.
+ */
 Game.newGame = function(users, n = DEFAULT_NUMBER_OF_CARDS) {
   const gameState = {};
   gameState.users = users.map(u => {
@@ -70,6 +149,12 @@ Game.newGame = function(users, n = DEFAULT_NUMBER_OF_CARDS) {
   return new Game(gameState);
 };
 
+/**
+ * Process the card for the given user.
+ * @param  {Number} userId     The id of the user.
+ * @param  {Integer} cardToPlay The card to play
+ * @return {Boolean}            True if everything is ok, false otherwise.
+ */
 Game.prototype.playCard = function(userId, cardToPlay) {
   const indexOfUser = this.gameState.users.findIndex(x => x.user_id === userId);
   // invalid userId for this game
@@ -110,6 +195,10 @@ Game.prototype.playCard = function(userId, cardToPlay) {
   return true;
 };
 
+/**
+ * Interates over the turns and calculates the updated scores.
+ * @return {Undefined} Updates the internal data.
+ */
 Game.prototype.updateScores = function() {
   this.gameState.users.forEach((user, index) => {
     user.score = this.gameState.turns.reduce((score, t) => {
@@ -128,6 +217,10 @@ Game.prototype.updateScores = function() {
   });
 };
 
+/**
+ * Returns a 'view' of the game state that's appropriate for a given user.
+ * Most importantly, the data is sorted so that 'this' user is the first in the list.
+ */
 Game.prototype.getStateForUserId = function(userId) {
   const indexOfUser = this.gameState.users.findIndex(x => x.user_id === userId);
   // invalid userId for this game
