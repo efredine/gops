@@ -59,26 +59,17 @@
 .playingCards.fourColours .card.diams {
     color: #00f !important;
 }
-[lang=de] .playingCards.fourColours .card.diams {
-    color: #f60 !important;
-}
 .playingCards .card.hearts {
     color: #f00 !important;
 }
 .playingCards .card.spades {
     color: #000 !important;
 }
-[lang=de] .playingCards.fourColours .card.spades {
-    color: #090 !important;
-}
 .playingCards .card.clubs {
     color: #000 !important;
 }
 .playingCards.fourColours .card.clubs {
     color: #090 !important;
-}
-[lang=de] .playingCards.fourColours .card.clubs {
-    color: #000 !important;
 }
 .playingCards .card.joker {
     color: #000 !important;
@@ -127,19 +118,6 @@
     top: .25em;
     left: .25em;
     background: #fff;
-}
-[lang=de] .playingCards .card.rank-j .rank:after {
-    content: "B";
-}
-[lang=fr] .playingCards .card.rank-j .rank:after {
-    content: "V";
-}
-[lang=de] .playingCards .card.rank-q .rank:after,
-[lang=fr] .playingCards .card.rank-q .rank:after {
-    content: "D";
-}
-[lang=fr] .playingCards .card.rank-k .rank:after {
-    content: "R";
 }
 
 /* joker (top left symbol) */
@@ -324,14 +302,6 @@
     /* @change: smaller cards: more negative distance from the left
        bigger cards: 0 or more positive distance from the left */
 
-    /* for a centered full background image:
-    background-position: .35em 0;
-    -moz-background-size: contain;
-    -o-background-size: contain;
-    -webkit-background-size: contain;
-    -khtml-background-size: contain;
-    background-size: contain;
-    */
 }
 
 .playingCards.faceImages .card.rank-j.diams  { background-image: url(faces/JD.gif); }
