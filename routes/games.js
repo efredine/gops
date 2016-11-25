@@ -165,9 +165,10 @@ module.exports = (knex) => {
   router.get("/:id/newGame", (req, res) => {
     const userId = req.session.user.id;
     const gameId = req.params.id;
+    const numberOfCardsInGame = req.query.cards ? req.query.cards : 13;
     getGame(gameId, userId)
     .then(gameObject => {
-      const gameState =  Game.newGame(gameObject.users, 3);
+      const gameState =  Game.newGame(gameObject.users, numberOfCardsInGame);
       updateGameState(gameId, gameState)
       .then(result => {
         res.redirect('/api/games/' + gameId);
