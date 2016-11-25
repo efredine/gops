@@ -1,6 +1,5 @@
-$primary-color: #333;
 $primary-color: #8d6e63;
-
+$secondary-color: #212121;
 
 html {
   height: 100%;
@@ -19,23 +18,28 @@ html {
       overflow: auto;
       padding: 10px 10px;
       width: 100%;
+      .form {
+        height: auto;
+      }
       .intro {
-        color: #bcaaa4;
+        color: $secondary-color;
         font-size: 20px;
       }
-      .title {
-        color: #212121;
-        font-size: 30px
+      .stats {
+        color: $primary-color;
       }
-      form {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
+      .title {
+        color: #efebe9;
+        font-size: 30px;
+      }
+      .title-modal {
+        color: $secondary-color;
+        font-size: 30px;
+        margin: 0;
       }
       ul {
         color: $primary-color;
       }
-
     }
     #game-container {
       background-color: #efebe9;
