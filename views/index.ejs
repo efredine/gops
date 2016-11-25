@@ -13,24 +13,32 @@
 
     <link rel="stylesheet" href="/styles/nav.css" type="text/css">
 
+    <script type="text/javascript" src="/navbar.js"></script>
     <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
     <script type="text/javascript" src="/scripts/app.js"></script>
+    <script type="text/javascript" src="/scripts/side-nav.js"></script>
+    <script type="text/javascript" src="/scripts/modal.js"></script>
+
   </head>
 
   <body>
 
     <% include ./partials/_navbar %>
 
-    <section id="game-container">
-    </section>
+    <!-- <a class="btn-floating btn-large waves-effect waves-light brown darken-3 right"><i class="material-icons">add</i></a> -->
 
-    <script id="game-template" type="text/x-handlebars-template">
-      <article class="game" data-game-id="{{game_id}}">
-        <h3>{{created_at}}</h3>
-        <div>You: {{users.0.username}}, Won: {{users.0.won}}</div>
-        <div>Opponent: {{users.1.username}}, Won: {{users.1.won}}</div>
-      </article>
-    </script>
+    <section id="game-container">
+
+      <script id="game-template" type="text/x-handlebars-template">
+        <article class="game" data-game-id="{{game_id}}">
+          <h3>{{created_at}}</h3>
+          <div>You: {{users.0.username}}, Won: {{users.0.won}}</div>
+          <div>Opponent: {{users.1.username}}, Won: {{users.1.won}}</div>
+        </article>
+     </script>
+
+  </section>
+
    <!-- Compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.6/handlebars.min.js"></script>

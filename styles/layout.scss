@@ -1,22 +1,58 @@
-body {
-  background-color: #EEE;
-  .navbar {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    padding: 50px 10px;
-    overflow: auto;
-    h1 {
-      color: #244751;
-    }
-    form {
+$primary-color: #8d6e63;
+$secondary-color: #212121;
+
+html {
+  height: 100%;
+  overflow: hidden;
+  body {
+    background-color: #d7ccc8;
+    height: 100%;
+    margin: 0;
+    .navbar {
+      background-color: $primary-color;
+      align-items: center;
       display: flex;
       flex-direction: row;
-      align-items: center;
+      height: 64px;
+      justify-content: space-between;
+      overflow: auto;
+      padding: 10px 10px;
+      width: 100%;
+      .form {
+        height: auto;
+      }
+      .intro {
+        color: $secondary-color;
+        font-size: 20px;
+      }
+      .stats {
+        color: $primary-color;
+      }
+      .title {
+        color: #efebe9;
+        font-size: 30px;
+      }
+      .title-modal {
+        color: $secondary-color;
+        font-size: 30px;
+        margin: 0;
+      }
+      ul {
+        color: $primary-color;
+      }
     }
-
+    #game-container {
+      background-color: #efebe9;
+      height: 100%;
+      margin: 0 auto;
+      padding: 10px;
+      width: 90%
+    }
   }
+}
 
+@media only screen and (min-width: 993px) {
+  nav a.button-collapse {
+      display: block !important;
+    }
 }
