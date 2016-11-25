@@ -11,15 +11,17 @@ function insertPlayers(knex, Promise, userIds, gameIds) {
 
 exports.seed = function(knex, Promise) {
   return Promise.all([
-    knex('players').del(), knex('games').del(), knex('users').del()])
+    knex('players').del(),
+    knex('games').del(),
+    knex('users').del()])
     .then(function () {
       return knex('users').insert([{name: 'Alice'}, {name: 'Bob'}, {name: 'Charlie'}])
         .returning('id')
         .then(userIds => {
           return knex('games').insert([
-              {created_at: new Date(), updated_at: new Date()},
-              {created_at: new Date(), updated_at: new Date()},
-              {created_at: new Date(), updated_at: new Date()}])
+              {game_status: 3, created_at: new Date(), updated_at: new Date()},
+              {game_status: 3, created_at: new Date(), updated_at: new Date()},
+              {game_status: 3, created_at: new Date(), updated_at: new Date()}])
           .returning('id')
           .then(gameIds => {
             return insertPlayers(knex, Promise, userIds, gameIds);
