@@ -32,27 +32,28 @@ function newGame() {
 
 
 
-// CREATES A NEW CARD TO ADD TO PLAYER HAND
-function generatePlayerHand(p1_suit, cardNumber) { //*****throwing in artifical information for testing
-  if (cardNumber === 1) {
-    cardNumber = "A";
-  }
-  else if (cardNumber === 11) {
-    cardNumber = "J"
-  }
-  else if (cardNumber === 12) {
-    cardNumber = "Q";
-  }
-  else if (cardNumber === 13) {
-    cardNumber = "K";
-  }
-  const newCard = $([
-    "<li>",
-      `<a class='card rank-${cardNumber} ${p1_suit}' href='#'>`,
-        `<span class='rank'>${cardNumber}</span>`,
-        `<span class='suit'>&${p1_suit};</span>`,
-      "</a>",
-    "</li>"
+function generatePlayerHand(p1_suit, cardNumber) {
+	if (cardNumber === 1) {
+		cardNumber = "A";
+	}
+	else if (cardNumber === 11) {
+		cardNumber = "J"
+	}
+	else if (cardNumber === 12) {
+		cardNumber = "Q";
+	}
+	else if (cardNumber === 13) {
+		cardNumber = "K";
+	}
+
+
+
+	const newCard = $([
+		`<a class='card rank-${cardNumber} ${p1_suit}' href='#'>`,
+	    `<span class='rank'>${cardNumber}</span>`,
+	    `<span class='suit'>&${p1_suit};</span>`,
+		"</a>",
+
   ].join("\n"));
   $( "#playerHand" ).append( newCard );
   return;
@@ -73,7 +74,7 @@ function createOpponentHand(cardNumber) {
   if (cardNumber === 13) {
     cardNumber = "K";
   }
-  const newOppCard = $(["<li><div class='card back'>*</div></li>"].join("\n"));
+  const newOppCard = $(["<div class='card back'>*</div>"].join("\n"));
   $( "#oppHand" ).append( newOppCard );
   return;
 }

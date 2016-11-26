@@ -5,31 +5,32 @@ function createEmptyBoard() {
   const emptyBoard = $([
 
     //WHOLE CONTAINER
-    "<div class='container wrapper'>",
+    "<div class='container wrapper board'>",
 
       // TOP OF THE BOARD
       "<div class='container container-top'>",
         "<div class='opponent'>",
-          "<div class='playingCards'>",
-            "<ul class='deck' id='oppHand'></ul>",
+          "<div class='playingCards inText' id='oppHand'>",
           "</div>",// oppHand
         "</div>", // /opponent
       "</div>", // /top
 
       //MIDDLE OF THE BOARD
       "<div class='container container-middle content'>",
-        "<div class='oval'>",
+        "<div class='oval center'>",
+
+
         //MIDDLE OF THE TABLE
           "<div class='playingCards'>",
 
 
             //OPPONENTS PLAYED CARD
             "<div class='opponentsPlayedCards center'>",
-              "<div class='playingCards'>",
+              "<div class='playingCards simpleCards'>",
 
-                "<div class='card little joker'>",
-                  "<span class='rank'>-</span>",
-                  "<span class='suit'>Joker</span>",
+                "<div class='card mystery'>",
+                  "<span class='rank'>?</span>",
+                  "<span class='suit'></span>",
                 "</div>",
 
 
@@ -40,7 +41,7 @@ function createEmptyBoard() {
 
             //PRIZE CARDS
 
-            "<div class='play' id='tableCards'>",
+            "<div class='play' id='tableCards simpleCards'>",
 
               //PRIZE CARDS
               "<div class='prizeContainer'>",
@@ -61,16 +62,19 @@ function createEmptyBoard() {
 
 
 
-            "</div>", //playing cards in the center
+              "</div>", //playing cards in the center
+          "</div>", //table cards
         "</div>", //oval
-      "</div>", // middle
-
+      "</div>",// middle
 
       //BOTTOM
       "<div class='container container-bottom'>",
-        "<div class='playingCards'>",
-          "<ul class='hand' id='playerHand'></ul>",
-          "<div class='clear'></div>", //clear
+        // "<div class='right'>",
+        //   "<button class='btn right'>Bet</button>",
+        // "</div>",
+
+        "<div class='playingCards simpleCards' id='playerHand'>",
+          // "<div class='clear'></div>", //clear
         "</div>",
       "</div>",
     "</div>" // /whole
