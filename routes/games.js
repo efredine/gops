@@ -30,6 +30,7 @@ const express = require('express');
 const _ = require('underscore');
 const Game = require('./game_state').Game;
 const router  = express.Router();
+const dispatch = require('../modules/dispatch');
 
 module.exports = (knex) => {
 
@@ -168,8 +169,16 @@ module.exports = (knex) => {
   router.get("/:id", (req, res) => {
     const gameId = req.params.id;
     const userId = req.session.user.id;
+    const emitUpdate = req.query.update;
     getGame(gameId, userId, true)
     .then(gameObject => {
+      if(emitUpdate) {
+        gameObject.users
+          .filter(u => u.user_id !== userId)
+          .forEach(u => {
+            dispatch.emit(u.user_id, gameObject);
+          });
+      }
       res.json(gameObject);
     })
     .catch(err => {

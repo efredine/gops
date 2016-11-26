@@ -17,6 +17,7 @@ const knex          = require("knex")(knexConfig[ENV]);
 const morgan        = require('morgan');
 const knexLogger    = require('knex-logger');
 const $             = require('jQuery');
+const dispatch      = require('./modules/dispatch');
 
 server.listen(PORT);
 
@@ -77,12 +78,7 @@ app.get("/test", (req, res) => {
   res.render("test");
 });
 
-io.on('connection', function (socket) {
-  console.dir(`"Example app listening on port ${PORT}"`, {colors:true});
-  socket.emit('identify', {});
-  socket.on('identify', function (data) {
-    console.log(data);
-  });
-});
+console.dir(`"Example app listening on port ${PORT}"`, {colors:true});
 
+dispatch.init(io);
 

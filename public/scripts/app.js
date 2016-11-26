@@ -115,6 +115,9 @@ $(() => {
       socket.on('identify', function () {
         socket.emit('identify', { userId: user.id });
       });
+      socket.on('update', function(data){
+        console.log(data);
+      });
     }
   });
 });
