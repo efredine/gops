@@ -219,7 +219,7 @@ module.exports = (knex) => {
           return newGameState(gameId, userId, numberOfCardsInGame);
         })
         .then(result => {
-          res.redirect('/api/games/' + gameId);
+          res.redirect('/api/games/' + gameId + '?update=true');
         });
       }
     })
@@ -241,7 +241,7 @@ module.exports = (knex) => {
       if(playedOk) {
         updateGameState(gameId, gameState, 1)
         .then(result => {
-          res.redirect("/api/games/" + gameId);
+          res.redirect("/api/games/" + gameId + '?update=true');
         });
       } else {
         res.status(403).send("Not allowed.");
@@ -270,7 +270,7 @@ module.exports = (knex) => {
       .update({game_status: newStatus})
       .where('id', gameId)
       .then((result) => {
-        res.redirect("/api/games/" + gameId);
+        res.redirect("/api/games/" + gameId + '?update=true');
       });
     })
     .catch(err => {
