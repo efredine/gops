@@ -42,7 +42,7 @@
   background-size: cover;
 }
 
-.playingCards .card.back .opponent {
+.playingCards .card.back.opponent {
   cursor: not-allowed;
   text-indent: -4000px;
   background-color: #ccc;
