@@ -18,26 +18,25 @@
     <script type="text/javascript" src="/scripts/app.js"></script>
     <script type="text/javascript" src="/scripts/side-nav.js"></script>
     <script type="text/javascript" src="/scripts/modal.js"></script>
-
+    <script type="text/javascript" src="/scripts/new-game.js"></script>
+    
   </head>
 
-  <body>
+  <body id="body">
 
     <% include ./partials/_navbar %>
 
-    <!-- <a class="btn-floating btn-large waves-effect waves-light brown darken-3 right"><i class="material-icons">add</i></a> -->
-
     <section id="game-container">
 
-      <script id="game-template" type="text/x-handlebars-template">
-        <article class="game" data-game-id="{{game_id}}">
-          <h3>{{created_at}}</h3>
-          <div>You: {{users.0.username}}, Won: {{users.0.won}}</div>
-          <div>Opponent: {{users.1.username}}, Won: {{users.1.won}}</div>
-        </article>
-     </script>
+    </section>
 
-  </section>
+    <!-- <script id="game-template" type="text/x-handlebars-template">
+      <article class="game" data-game-id="{{game_id}}">
+        <h3>{{created_at}}</h3>
+        <div>You: {{users.0.username}}, Won: {{users.0.won}}</div>
+        <div>Opponent: {{users.1.username}}, Won: {{users.1.won}}</div>
+      </article>
+    </script> -->
 
    <!-- Compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
