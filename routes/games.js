@@ -154,10 +154,11 @@ module.exports = (knex) => {
   }
 
   router.get("/", (req, res) => {
-
+    const statesToQuery = req.query.states ? req.query.states.split("").map(Number) : [0, 1];
+    console.log(statesToQuery);
     const query = selectFull()
     .where('game_id', 'in', userGames(req.session.user.id))
-    .andWhere('game_status', 'in', [0, 1]);
+    .andWhere('game_status', 'in', statesToQuery);
 
     query.then((results) => {
       res.json(formatGames(results, req.session.user.id, true));
@@ -183,14 +184,13 @@ module.exports = (knex) => {
     const userId = req.session.user.id;
 
     const query = knex('games')
+      .distinct('games.id')
       .select('games.id as game_id', 'games.created_at')
-      .count('games.id')
       .innerJoin('players', 'games.id', 'players.game_id')
-      .groupBy('games.id', 'games.created_at')
-      .havingRaw('count(games.id) = ?', [1])
       .orderBy('games.created_at')
-      .where('game_id', 'not in', userGames(userId));
-
+      .where('user_id', '<>', userId)
+      .andWhere('game_status', 0);
+    console.log(query);
     return query
     .then(waitingGames => {
       if(waitingGames.length === 0 ) {
@@ -237,6 +237,32 @@ module.exports = (knex) => {
       } else {
         res.status(403).send("Not allowed.");
       }
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).send(err.toString());
+    });
+  });
+
+  router.post("/:id/setStatus/:newStatus", (req, res) => {
+    const userId = req.session.user.id;
+    const gameId = req.params.id;
+    const newStatus = req.params.newStatus;
+
+    knex('game_statuses')
+    .select('name')
+    .where('id', newStatus)
+    .then(result => {
+      // it's a valid status, so apply the update
+      if(result.length !== 1 ) {
+        return Promise.reject(new Error("Invalid status"));
+      }
+      return knex('games')
+      .update({game_status: newStatus})
+      .where('id', gameId)
+      .then((result) => {
+        res.redirect("/api/games/" + gameId);
+      });
     })
     .catch(err => {
       console.log(err);

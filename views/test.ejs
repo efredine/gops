@@ -1,9 +1,9 @@
 <script type="text/javascript" src="/scripts/gameBoard.js"></script>
+<script type="text/javascript" src="/scripts/createCards.js"></script>
 <link rel="stylesheet" type="text/css" href="css/cards.css">
 <link rel="stylesheet" type="text/css" href="css/gameui.css">
 <link rel="stylesheet" type="text/css" href="css/jDebug.css">
-<script
-  src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
 
 <html>
   <section class="board">
@@ -11,9 +11,19 @@
 </html>
 
 <script>
+// ******* example card: ace of diamonds
+var fakeCard = {
+  "class": "card",
+  "rank": "7", // TODO: NEED TO FIND A WAY TO GENERATE RANK. **** 7 IS JUST FOR TESTING, but it will have to be a sequence since we are appending the card to a possible stack of cards
+  "suit": "diams"
+};
+// ******* example card: ace of diamonds
   $( document ).ready( function() {
     console.dir("***Page is loaded. Ready to start loading.", {colors:true});
     createEmptyBoard();
+    generatePlayerCard(fakeCard);
+    createOpponentHand(10);
+    createRemainingPrizes(13);
   });
   //render cards...
   // function createPlayingCards()
