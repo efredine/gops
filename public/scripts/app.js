@@ -1,4 +1,6 @@
 $(() => {
+  // websocket for communicating with the server
+  var socket = undefined;
 
   var gameContainer = $('#game-container');
   var gameTemplate = Handlebars.compile($("#game-template").html());
@@ -102,16 +104,16 @@ $(() => {
 
   loadGames();
 
+  // websocket configuration
   // TODO: make socket URL confirable
   $.ajax({
     method: "GET",
     url: "/api/users/identify"    })
   .done(function(user) {
     if(user.id){
-      var socket = io.connect();
-      socket.on('news', function (data) {
-        console.log(data);
-        socket.emit('my other event', { userId: user.id });
+      socket = io.connect();
+      socket.on('identify', function () {
+        socket.emit('identify', { userId: user.id });
       });
     }
   });

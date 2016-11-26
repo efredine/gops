@@ -79,8 +79,8 @@ app.get("/test", (req, res) => {
 
 io.on('connection', function (socket) {
   console.dir(`"Example app listening on port ${PORT}"`, {colors:true});
-  socket.emit('news', { hello: 'world' });
-  socket.on('my other event', function (data) {
+  socket.emit('identify', {});
+  socket.on('identify', function (data) {
     console.log(data);
   });
 });
