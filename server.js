@@ -65,36 +65,12 @@ app.get("/gameui", (req, res) => {
   res.render("gameui");
 });
 
+// For testing purposes
+app.get("/test", (req, res) => {
+  console.dir(`"Res + ${res.locals.username}"`, {colors:true});
+  res.render("test");
+});
+
 app.listen(PORT, () => {
   console.dir(`"Example app listening on port ${PORT}"`, {colors:true});
 });
-
-
-
-// // function to load initial game state
-// function createGame(gameObject) {
-//
-// }
-
-// function to create a deck of 13 cards
-// first, create your cards
-// function createPlayingDeck(tweetObject) {
-//   var user = escape(tweetObject.user.name);
-//   var avatarSource = escape(tweetObject.user.avatars.regular);
-//
-//   var tweetContainer = $([
-//     "<article class='tweet'>",
-//     "  <header>",
-//     "    <img class='userAvatar' src='" + avatarSource + "'/>",
-//     "    <h2 class='userName'>", user, "</h2>",
-//     "    <p class='userHandle'>", handle, "</p>",
-//     "  </header>",
-//     "  <div><p>", tweetText, "</p></div>",
-//     "  <footer><p>Tweetered ", dateAndTime,"</p>",
-//     "    <div class='itemsContainer'",
-//     "      <div class='icons'>",
-//     "        <ul><li><a href='#'><i class='fa fa-flag' aria-hidden='true'></i></a></li><li><i class='fa fa-retweet' aria-hidden='true'></i></li><li><i class='fa fa-heart' aria-hidden='true'></i></ul>",
-//     "      </div>",
-//     "  </footer>",
-//     "</article>"
-//   ].join("\n"));
