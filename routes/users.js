@@ -11,7 +11,15 @@ module.exports = (knex) => {
       .from("users")
       .then((results) => {
         res.json(results);
-    });
+      });
+  });
+
+  router.get("/identify", (req, res) => {
+    if(req.session.user) {
+      res.json(req.session.user);
+    } else {
+      res.status(403).json({});
+    }
   });
 
   router.post("/login", (req, res) => {
@@ -29,7 +37,7 @@ module.exports = (knex) => {
     })
     .catch((error) => {
       console.error(error);
-    })
+    });
   });
 
   router.post("/logout", (req, res) => {
@@ -38,4 +46,4 @@ module.exports = (knex) => {
   });
 
   return router;
-}
+};

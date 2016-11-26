@@ -30,6 +30,7 @@ const express = require('express');
 const _ = require('underscore');
 const Game = require('./game_state').Game;
 const router  = express.Router();
+const dispatch = require('../modules/dispatch');
 
 module.exports = (knex) => {
 
@@ -155,7 +156,6 @@ module.exports = (knex) => {
 
   router.get("/", (req, res) => {
     const statesToQuery = req.query.states ? req.query.states.split("").map(Number) : [0, 1];
-    console.log(statesToQuery);
     const query = selectFull()
     .where('game_id', 'in', userGames(req.session.user.id))
     .andWhere('game_status', 'in', statesToQuery);
@@ -168,8 +168,16 @@ module.exports = (knex) => {
   router.get("/:id", (req, res) => {
     const gameId = req.params.id;
     const userId = req.session.user.id;
+    const emitUpdate = req.query.update;
     getGame(gameId, userId, true)
     .then(gameObject => {
+      if(emitUpdate) {
+        gameObject.users
+          .filter(u => u.user_id !== userId)
+          .forEach(u => {
+            dispatch.emit(u.user_id, gameObject.game_id);
+          });
+      }
       res.json(gameObject);
     })
     .catch(err => {
@@ -190,14 +198,12 @@ module.exports = (knex) => {
       .orderBy('games.created_at')
       .where('user_id', '<>', userId)
       .andWhere('game_status', 0);
-    console.log(query);
     return query
     .then(waitingGames => {
       if(waitingGames.length === 0 ) {
         return addPlayerToNewGame(userId)
         .then(results => {
           let gameId = results[0].game_id;
-          console.log('About to redirect to: ', gameId);
           res.redirect('/api/games/' + gameId);
         });
       } else {
@@ -210,7 +216,7 @@ module.exports = (knex) => {
           return newGameState(gameId, userId, numberOfCardsInGame);
         })
         .then(result => {
-          res.redirect('/api/games/' + gameId);
+          res.redirect('/api/games/' + gameId + '?update=true');
         });
       }
     })
@@ -232,7 +238,7 @@ module.exports = (knex) => {
       if(playedOk) {
         updateGameState(gameId, gameState, 1)
         .then(result => {
-          res.redirect("/api/games/" + gameId);
+          res.redirect("/api/games/" + gameId + '?update=true');
         });
       } else {
         res.status(403).send("Not allowed.");
@@ -261,7 +267,7 @@ module.exports = (knex) => {
       .update({game_status: newStatus})
       .where('id', gameId)
       .then((result) => {
-        res.redirect("/api/games/" + gameId);
+        res.redirect("/api/games/" + gameId + '?update=true');
       });
     })
     .catch(err => {
