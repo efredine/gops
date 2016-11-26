@@ -183,14 +183,13 @@ module.exports = (knex) => {
     const userId = req.session.user.id;
 
     const query = knex('games')
+      .distinct('games.id')
       .select('games.id as game_id', 'games.created_at')
-      .count('games.id')
       .innerJoin('players', 'games.id', 'players.game_id')
-      .groupBy('games.id', 'games.created_at')
-      .havingRaw('count(games.id) = ?', [1])
       .orderBy('games.created_at')
-      .where('game_id', 'not in', userGames(userId));
-
+      .where('user_id', '<>', userId)
+      .andWhere('game_status', 0);
+    console.log(query);
     return query
     .then(waitingGames => {
       if(waitingGames.length === 0 ) {
