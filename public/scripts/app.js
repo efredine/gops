@@ -103,10 +103,17 @@ $(() => {
   loadGames();
 
   // TODO: make socket URL confirable
-  var socket = io.connect();
-  socket.on('news', function (data) {
-    console.log(data);
-    socket.emit('my other event', { my: 'data' });
+  $.ajax({
+    method: "GET",
+    url: "/api/users/identify"    })
+  .done(function(user) {
+    if(user.id){
+      var socket = io.connect();
+      socket.on('news', function (data) {
+        console.log(data);
+        socket.emit('my other event', { userId: user.id });
+      });
+    }
   });
 });
 
