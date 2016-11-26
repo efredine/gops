@@ -4,10 +4,13 @@ require('dotenv').config();
 
 const PORT          = process.env.PORT || 8080;
 const ENV           = process.env.ENV || "development";
+// const socketio      = require('socket.io');
 const express       = require("express");
 const bodyParser    = require("body-parser");
 const sass          = require("node-sass-middleware");
 const app           = express();
+const server = require('http').Server(app);
+const io = require('socket.io')(server);
 const cookieSession = require('cookie-session');
 const knexConfig    = require("./knexfile");
 const knex          = require("knex")(knexConfig[ENV]);
@@ -15,7 +18,9 @@ const morgan        = require('morgan');
 const knexLogger    = require('knex-logger');
 const $             = require('jQuery');
 
-app.use(cookieSession ({name:'session', secret: 'secret garden'}));
+server.listen(PORT);
+
+app.use(cookieSession({name: 'session', secret: 'secret garden'}));
 
 app.use((req, res, next) => {
   if(req.session.user) {
@@ -30,6 +35,7 @@ app.use((req, res, next) => {
 // Seperated Routes for each Resource
 const usersRoutes = require("./routes/users");
 const gamesRoutes = require('./routes/games');
+
 
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
 // 'dev' = Concise output colored by response status for development use.
@@ -71,6 +77,12 @@ app.get("/test", (req, res) => {
   res.render("test");
 });
 
-app.listen(PORT, () => {
+io.on('connection', function (socket) {
   console.dir(`"Example app listening on port ${PORT}"`, {colors:true});
+  socket.emit('news', { hello: 'world' });
+  socket.on('my other event', function (data) {
+    console.log(data);
+  });
 });
+
+
