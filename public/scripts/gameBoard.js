@@ -28,7 +28,7 @@ function createEmptyBoard() {
             "<div class='opponentsPlayedCards center'>",
               "<div class='playingCards simpleCards'>",
 
-                "<div class='card mystery'>",
+                "<div class='card mystery'>", // BLANK CARD **** TODO:REMOVE
                   "<span class='rank'>?</span>",
                   "<span class='suit'></span>",
                 "</div>",
@@ -80,5 +80,4 @@ function createEmptyBoard() {
     "</div>" // /whole
   ].join("\n"));
   $( "section.board" ).append( emptyBoard ); //need to insert the name of the container
-
 }
