@@ -43,9 +43,9 @@ module.exports = (knex) => {
     }
   }
 
-  function updateGameState(gameId, gameState) {
+  function updateGameState(gameId, gameState, gameStatus = 0) {
     return knex('games')
-    .update({game_state: JSON.stringify(gameState.gameState)})
+    .update({game_state: JSON.stringify(gameState.gameState), game_status: gameStatus})
     .where('id', gameId)
     .then((result) => {
       return result;
@@ -82,6 +82,7 @@ module.exports = (knex) => {
           game_id: games[0].game_id,
           created_at: games[0].created_at,
           updated_at: games[0].updated_at,
+          game_status: games[0].game_status,
           game_state: game,
           users: users
         };
@@ -95,7 +96,7 @@ module.exports = (knex) => {
 
   function selectFull() {
     return knex('games')
-      .select('created_at', 'updated_at', 'game_id', 'users.name as username', 'user_id', 'won', 'game_state')
+      .select('created_at', 'updated_at', 'game_id', 'users.name as username', 'user_id', 'won', 'game_state', 'game_status')
       .innerJoin('players', 'games.id', 'players.game_id')
       .innerJoin("users", "users.id", "players.user_id");
   }
@@ -131,7 +132,7 @@ module.exports = (knex) => {
     return getGame(gameId, userId)
     .then(gameObject => {
       const gameState =  Game.newGame(gameObject.users, numberOfCardsInGame);
-      return updateGameState(gameId, gameState);
+      return updateGameState(gameId, gameState, 0);
     });
   }
 
@@ -144,7 +145,7 @@ module.exports = (knex) => {
   function addPlayerToNewGame(userId) {
   // create a new waiting game by inserting into games and players tables
     const now = new Date();
-    return knex('games').insert({ created_at: now, updated_at: now})
+    return knex('games').insert({ created_at: now, updated_at: now, game_status:0})
     .returning('id')
     .then(insertedIds => {
       console.log('Creating new game for:', insertedIds[0], insertedIds);
@@ -155,7 +156,8 @@ module.exports = (knex) => {
   router.get("/", (req, res) => {
 
     const query = selectFull()
-    .where('game_id', 'in', userGames(req.session.user.id));
+    .where('game_id', 'in', userGames(req.session.user.id))
+    .andWhere('game_status', 'in', [0, 1]);
 
     query.then((results) => {
       res.json(formatGames(results, req.session.user.id, true));
@@ -228,7 +230,7 @@ module.exports = (knex) => {
       const gameState = gameObject.game_state;
       const playedOk = gameState.playCard(userId, cardToPlay);
       if(playedOk) {
-        updateGameState(gameId, gameState)
+        updateGameState(gameId, gameState, 1)
         .then(result => {
           res.redirect("/api/games/" + gameId);
         });
