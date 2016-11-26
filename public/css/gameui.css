@@ -48,7 +48,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, 
 }
 
 body {
-  font: 2vh/2.2vh Arial, sans-serif;
+  font: 2vh/2vh Arial, sans-serif;
 }
 
 .wrapper {
@@ -63,7 +63,9 @@ body {
 }
 
 .oval {
-  width: 75vh;
+  margin: auto;
+  text-align: center;
+  width: 100vh;
   height: 50vh;
   -webkit-box-sizing: content-box;
   -moz-box-sizing: content-box;
@@ -86,6 +88,9 @@ body {
   background: -ms-radial-gradient(center, ellipse cover, rgba(98,125,77,1) 0%, rgba(31,59,8,1) 80%, rgba(31,59,8,1) 100%);
   background: radial-gradient(ellipse at center, rgba(98,125,77,1) 0%, rgba(31,59,8,1) 80%, rgba(31,59,8,1) 100%);
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#627d4d', endColorstr='#1f3b08', GradientType=1 );
+  -webkit-box-shadow: 0px 0px 50px 0px rgba(0,0,0,0.75);
+  -moz-box-shadow: 0px 0px 50px 0px rgba(0,0,0,0.75);
+  box-shadow: 0px 0px 50px 0px rgba(0,0,0,0.75);
 }
 
 
@@ -95,28 +100,36 @@ body {
 
 #tableCards {
   position: relative;
-  margin-left: 50%;
+  margin: auto;
 }
 
 
 /*GENERAL LAYOUT*/
-.container-bottom {
-  position: relative;
-  /*border: 1px solid black;*/
-  overflow: visible;
-  bottom: 0;
+
+.board {
+  overflow: hidden;
 }
 
 .container-top {
   top: 0;
   position: relative;
   display: block;
-  padding: 1vh 10vw 0 10vw;
+  padding: 5vh 0 0 10vw;
 }
 
 .container-middle {
   position: relative;
   display: block;
+  overflow: visible;
+  margin: auto;
+
+}
+
+.container-bottom {
+  position: relative;
+  /*border: 1px solid black;*/
+  overflow: visible;
+  bottom: 0;
 }
 
 .center {
@@ -133,8 +146,15 @@ body {
 /*CONTAINERS FOR CARDS ON THE TABLE*/
 .opponentsPlayedCards {
   position: relative;
-  display: inline-block;
-  padding: 1vh 10vw 0 10vw;
+  display: block;
+  /*padding: 1vh 10vw 0 10vw;*/
+  text-align: center;
+}
+
+.prizeContainer {
+  text-align: center;
+  margin: auto;
+  width: 50%;
 }
 
 /*/CONTAINERS FOR CARDS ON THE TABLE*/

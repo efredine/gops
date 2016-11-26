@@ -2,9 +2,6 @@
 "use strict";
 
 function createEmptyBoard() {
-  console.log("Attempting to create an empty game board...");
-  //var that contains the gameboard html
-
   const emptyBoard = $([
 
     //WHOLE CONTAINER
@@ -26,15 +23,16 @@ function createEmptyBoard() {
           "<div class='playingCards'>",
 
 
-
-
             //OPPONENTS PLAYED CARD
             "<div class='opponentsPlayedCards center'>",
               "<div class='playingCards'>",
+
                 "<div class='card little joker'>",
                   "<span class='rank'>-</span>",
                   "<span class='suit'>Joker</span>",
                 "</div>",
+
+
               "</div>",
             "</div>",
             // /OPPONENTS PLAYED CARD
@@ -55,16 +53,9 @@ function createEmptyBoard() {
               //     "<span class='suit'></span>",
               // "</div>",
 
-              // PLAYERS PLAYED CARD
-              "<ul>",
-                "<li>",
-                  "<a class='card rank-2 diams' href='#'>", //artifical card ****** REMOVE
-                    "<span class='rank'>2</span>",
-                    "<span class='suit'>&diams;</span>",
-                  "</a>",
-                "</li>",
-              "</ul>",
-              // /PLAYERS PLAYED CARD
+              // PLAYER PLAYED CARD
+              "<ul id='playerPlayedCards'></ul>",
+              // /PLAYER PLAYED CARD
 
 
 
@@ -78,7 +69,7 @@ function createEmptyBoard() {
       //BOTTOM
       "<div class='container container-bottom'>",
         "<div class='playingCards'>",
-          "<ul class='hand' id='playerHand'><li><a class='card rank-7 diams' href='#'><span class='rank'>7</span><span class='suit'>&diams;</span></a></li></ul>", // ARTIFICAL CARD ******* REMOVE
+          "<ul class='hand' id='playerHand'></ul>",
           "<div class='clear'></div>", //clear
         "</div>",
       "</div>",
