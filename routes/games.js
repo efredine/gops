@@ -154,10 +154,11 @@ module.exports = (knex) => {
   }
 
   router.get("/", (req, res) => {
-
+    const statesToQuery = req.query.states ? req.query.states.split("").map(Number) : [0, 1];
+    console.log(statesToQuery);
     const query = selectFull()
     .where('game_id', 'in', userGames(req.session.user.id))
-    .andWhere('game_status', 'in', [0, 1]);
+    .andWhere('game_status', 'in', statesToQuery);
 
     query.then((results) => {
       res.json(formatGames(results, req.session.user.id, true));
