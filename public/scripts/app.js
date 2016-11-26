@@ -8,6 +8,16 @@ $(() => {
   //   url: "/api/users"
   // });
   function renderGame(gameData) {
+    switch(gameData.game_status) {
+    case 0:
+      gameData.statusDisplay = "Waiting";
+      break;
+    case 1:
+      gameData.statusDisplay = "Active";
+      break;
+    default:
+      gameData.statusDisplay = "WTF";
+    }
     var game = $(gameTemplate(gameData))
       .prependTo(gameContainer);
   }
@@ -26,6 +36,20 @@ $(() => {
       renderGames(gameData);
     });
   }
+
+  $(".new-game").on("click", (event) => {
+    event.preventDefault();
+
+    $.ajax({
+      method: 'POST',
+      url: '/api/games/new'
+    })
+    .then((game) => {
+      renderGame(game);
+    })
+    .fail(err => console.error(`/api/games/new: ${err}`));
+
+  });
 
   loadGames();
 });

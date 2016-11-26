@@ -132,7 +132,7 @@ module.exports = (knex) => {
     return getGame(gameId, userId)
     .then(gameObject => {
       const gameState =  Game.newGame(gameObject.users, numberOfCardsInGame);
-      return updateGameState(gameId, gameState, 0);
+      return updateGameState(gameId, gameState, 1);
     });
   }
 
@@ -207,7 +207,7 @@ module.exports = (knex) => {
         const numberOfCardsInGame = req.query.cards ? req.query.cards : 13;
         return addPlayerToGame(userId, gameId)
         .then(result => {
-          return newGameState(gameId, userId, numberOfCardsInGame)
+          return newGameState(gameId, userId, numberOfCardsInGame);
         })
         .then(result => {
           res.redirect('/api/games/' + gameId);
