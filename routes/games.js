@@ -156,7 +156,6 @@ module.exports = (knex) => {
 
   router.get("/", (req, res) => {
     const statesToQuery = req.query.states ? req.query.states.split("").map(Number) : [0, 1];
-    console.log(statesToQuery);
     const query = selectFull()
     .where('game_id', 'in', userGames(req.session.user.id))
     .andWhere('game_status', 'in', statesToQuery);
@@ -176,7 +175,7 @@ module.exports = (knex) => {
         gameObject.users
           .filter(u => u.user_id !== userId)
           .forEach(u => {
-            dispatch.emit(u.user_id, gameObject);
+            dispatch.emit(u.user_id, gameObject.game_id);
           });
       }
       res.json(gameObject);
@@ -199,14 +198,12 @@ module.exports = (knex) => {
       .orderBy('games.created_at')
       .where('user_id', '<>', userId)
       .andWhere('game_status', 0);
-    console.log(query);
     return query
     .then(waitingGames => {
       if(waitingGames.length === 0 ) {
         return addPlayerToNewGame(userId)
         .then(results => {
           let gameId = results[0].game_id;
-          console.log('About to redirect to: ', gameId);
           res.redirect('/api/games/' + gameId);
         });
       } else {

@@ -190,8 +190,6 @@ Game.prototype.playCard = function(userId, cardToPlay) {
 
   this.updateScores();
 
-  console.log(this.gameState);
-
   return true;
 };
 

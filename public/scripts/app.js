@@ -30,14 +30,13 @@ $(() => {
     gameData.currentTurn = turns[turns.length - 1];
     gameData.currentTurn.prize = cardMap[gameData.currentTurn.prize];
 
-    var game = $(activeGameTemplate(gameData))
-      .prependTo(gameContainer);
+    return $(activeGameTemplate(gameData));
   }
 
   function renderGame(gameData) {
 
     if(gameData.game_status === 1) {
-      return renderActiveGame(gameData);
+      return renderActiveGame(gameData).prependTo(gameContainer);
     }
     switch(gameData.game_status) {
     case 0:
@@ -95,14 +94,26 @@ $(() => {
       method: "POST",
       url: "/api/games/" + gameId + "/playCard/" + cardToPlay
     })
-    .done(function(result) {
-      console.log(result);
+    .done(function(updatedGame) {
+      $(`[data-game-id=${updatedGame.game_id}]`)
+      .replaceWith(renderActiveGame(updatedGame));
     });
 
 
   });
 
   loadGames();
+
+  function updateGame(updatedGameId) {
+    $.ajax({
+      method: "GET",
+      url: "/api/games/" + updatedGameId
+    })
+    .done(function(updatedGame){
+      $(`[data-game-id=${updatedGame.game_id}]`)
+      .replaceWith(renderActiveGame(updatedGame));
+    });
+  }
 
   // websocket configuration
   // TODO: make socket URL confirable
@@ -115,8 +126,8 @@ $(() => {
       socket.on('identify', function () {
         socket.emit('identify', { userId: user.id });
       });
-      socket.on('update', function(data){
-        console.log(data);
+      socket.on('update', function(updatedGameId){
+        updateGame(updatedGameId);
       });
     }
   });
