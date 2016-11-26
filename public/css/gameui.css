@@ -15,10 +15,11 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 
 body {
   line-height: 1vh;
-  background-image: url("../img/wood.svg");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
+  background: rgb(246,230,180);
+  background: -moz-linear-gradient(-45deg,  rgba(246,230,180,1) 0%, rgba(237,144,23,1) 100%);
+  background: -webkit-linear-gradient(-45deg,  rgba(246,230,180,1) 0%,rgba(237,144,23,1) 100%);
+  background: linear-gradient(135deg,  rgba(246,230,180,1) 0%,rgba(237,144,23,1) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f6e6b4', endColorstr='#ed9017',GradientType=1 );
 }
 
 ol, ul {
@@ -70,32 +71,23 @@ body {
   padding: 2vh 2vw;
   margin: 0 25vw;
   overflow: hidden;
-  border: 8px solid rgba(40, 40, 40, 1);
+  border: 12px solid rgba(40, 40, 40, 1);
   -webkit-border-radius: 50%;
   border-radius: 50%;
   font: normal 100%/normal Arial, Helvetica, sans-serif;
   color: rgba(0, 0, 0, 1);
   -o-text-overflow: clip;
   text-overflow: clip;
-  background: -webkit-linear-gradient(0deg, rgba(0, 120, 46, 1) 0, rgba(0, 80, 46, 1) 100%);
-  background: -moz-linear-gradient(90deg, rgba(0, 120, 46, 1) 0, rgba(0, 80, 46, 1) 100%);
-  background: linear-gradient(90deg, rgba(0, 120, 46, 1) 0, rgba(0, 80, 46, 1) 100%);
-  -webkit-background-origin: padding-box;
-  background-origin: padding-box;
-  -webkit-background-clip: border-box;
-  background-clip: border-box;
-  -webkit-background-size: auto auto;
-  background-size: auto auto;
-  -webkit-box-shadow: 1px 1px 7px 0 rgba(0, 0, 0, 0.5) inset;
-  box-shadow: 1px 1px 7px 0 rgba(0, 0, 0, 0.5) inset;
-  -webkit-transition: all 200ms cubic-bezier(0.42, 0, 0.58, 1) 10ms;
-  -moz-transition: all 200ms cubic-bezier(0.42, 0, 0.58, 1) 10ms;
-  -o-transition: all 200ms cubic-bezier(0.42, 0, 0.58, 1) 10ms;
-  transition: all 200ms cubic-bezier(0.42, 0, 0.58, 1) 10ms;
+  background: rgba(98,125,77,1);
+  background: -moz-radial-gradient(center, ellipse cover, rgba(98,125,77,1) 0%, rgba(31,59,8,1) 80%, rgba(31,59,8,1) 100%);
+  background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, rgba(98,125,77,1)), color-stop(80%, rgba(31,59,8,1)), color-stop(100%, rgba(31,59,8,1)));
+  background: -webkit-radial-gradient(center, ellipse cover, rgba(98,125,77,1) 0%, rgba(31,59,8,1) 80%, rgba(31,59,8,1) 100%);
+  background: -o-radial-gradient(center, ellipse cover, rgba(98,125,77,1) 0%, rgba(31,59,8,1) 80%, rgba(31,59,8,1) 100%);
+  background: -ms-radial-gradient(center, ellipse cover, rgba(98,125,77,1) 0%, rgba(31,59,8,1) 80%, rgba(31,59,8,1) 100%);
+  background: radial-gradient(ellipse at center, rgba(98,125,77,1) 0%, rgba(31,59,8,1) 80%, rgba(31,59,8,1) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#627d4d', endColorstr='#1f3b08', GradientType=1 );
 }
 
-
-/* OPPONENT'S HAND */
 
 #playerHand {
   margin-left: 80vw;
@@ -106,6 +98,8 @@ body {
   margin-left: 50%;
 }
 
+
+/*GENERAL LAYOUT*/
 .container-bottom {
   position: relative;
   /*border: 1px solid black;*/
@@ -116,13 +110,31 @@ body {
 .container-top {
   top: 0;
   position: relative;
-  /*border: 1px solid black;*/
   display: block;
   padding: 1vh 10vw 0 10vw;
 }
 
 .container-middle {
   position: relative;
-  /*border: 1px solid black;*/
   display: block;
 }
+
+.center {
+  margin: auto;
+  /*width: 5vw;*/
+  text-align: center;
+}
+/*/GENERAL LAYOUT*/
+
+
+
+
+
+/*CONTAINERS FOR CARDS ON THE TABLE*/
+.opponentsPlayedCards {
+  position: relative;
+  display: inline-block;
+  padding: 1vh 10vw 0 10vw;
+}
+
+/*/CONTAINERS FOR CARDS ON THE TABLE*/

@@ -13,8 +13,8 @@ function createEmptyBoard() {
       // TOP OF THE BOARD
       "<div class='container container-top'>",
         "<div class='opponent'>",
-          "<div class='playingCards simpleCards' id='oppHand'>",
-            "<div class='card back opponent'>*</div>", //oppCard
+          "<div class='playingCards'>",
+            "<ul class='deck' id='oppHand'></ul>",
           "</div>",// oppHand
         "</div>", // /opponent
       "</div>", // /top
@@ -22,21 +22,40 @@ function createEmptyBoard() {
       //MIDDLE OF THE BOARD
       "<div class='container container-middle content'>",
         "<div class='oval'>",
+        //MIDDLE OF THE TABLE
           "<div class='playingCards'>",
+
+
+
+
+            //OPPONENTS PLAYED CARD
+            "<div class='opponentsPlayedCards center'>",
+              "<div class='playingCards'>",
+                "<div class='card little joker'>",
+                  "<span class='rank'>-</span>",
+                  "<span class='suit'>Joker</span>",
+                "</div>",
+              "</div>",
+            "</div>",
+            // /OPPONENTS PLAYED CARD
+
+
+            //PRIZE CARDS
+
             "<div class='play' id='tableCards'>",
 
               //PRIZE CARDS
-              "<ul class='deck'>",
-                "<li><div class='card back'>*</div></li>", //individual card ***** REMOVE AFTER
-              "</ul>", //end prize deck
-
-              // CURRENT PRIZE
-              "<div class='card rank-1 spades'>",
-                  "<span class='rank'>?</span>",
-                  "<span class='suit'></span>",
+              "<div class='prizeContainer'>",
+                "<ul class='deck' id='prizeCards'></ul>",
               "</div>",
 
-              // PLAYED CARD
+              // // CURRENT PRIZE
+              // "<div class='card rank-1 spades'>",
+              //     "<span class='rank'>?</span>",
+              //     "<span class='suit'></span>",
+              // "</div>",
+
+              // PLAYERS PLAYED CARD
               "<ul>",
                 "<li>",
                   "<a class='card rank-2 diams' href='#'>", //artifical card ****** REMOVE
@@ -45,6 +64,10 @@ function createEmptyBoard() {
                   "</a>",
                 "</li>",
               "</ul>",
+              // /PLAYERS PLAYED CARD
+
+
+
 
 
             "</div>", //playing cards in the center
@@ -55,7 +78,7 @@ function createEmptyBoard() {
       //BOTTOM
       "<div class='container container-bottom'>",
         "<div class='playingCards'>",
-          "<ul class='hand' id='playerHand'></ul>",
+          "<ul class='hand' id='playerHand'><li><a class='card rank-7 diams' href='#'><span class='rank'>7</span><span class='suit'>&diams;</span></a></li></ul>", // ARTIFICAL CARD ******* REMOVE
           "<div class='clear'></div>", //clear
         "</div>",
       "</div>",
