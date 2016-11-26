@@ -42,7 +42,7 @@
       <script id="active-game-template" type="text/x-handlebars-template">
         <!-- <article class="game card"> -->
           <!-- whole container -->
-          <div class="container wrapper board">
+          <div class="container wrapper board" data-game-id={{game_id}}>
 
             <!-- container-top -->
             <div class="container container-top">
@@ -120,7 +120,7 @@
                 <ul class="hand" id="playerHand">
                 {{#list game_state.users.0.cardsInHand}}
                   <li>
-                    <a class="card rank-{{card}} diams" href="#">
+                    <a class="card rank-{{card}} diams" href="#" data-card-to-play={{card}}>
                       <span class="rank">{{card}}</span>
                       <span class="suit">&diams;</span>
                     </a>
@@ -134,6 +134,7 @@
             <!-- /player hand -->
 
             <!-- /player -->
+          <h1>{{game_id}}</h1>
 
           </div>
           <!-- /whole container -->

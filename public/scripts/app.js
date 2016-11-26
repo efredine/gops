@@ -4,7 +4,7 @@ $(() => {
   var gameTemplate = Handlebars.compile($("#game-template").html());
   var activeGameTemplate = Handlebars.compile($("#active-game-template").html());
 
-  var cardMap = ['', "A", "2", "3", "4", "5", "6", "7", "8", "9", "J", "Q", "K"];
+  var cardMap = ['', "A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
 
   Handlebars.registerHelper('list', function(context, options) {
     var ret = "";
@@ -78,6 +78,25 @@ $(() => {
       renderGame(game);
     })
     .fail(err => console.error(`/api/games/new: ${err}`));
+
+  });
+
+  $('body').on('click', '#playerHand a.card', function (event) {
+    event.preventDefault();
+    var card = $(this);
+    var gameId = card.closest('[data-game-id]').data('game-id');
+    var cardData = String(card.data('card-to-play'));
+    var cardToPlay = cardMap.findIndex(function(x){
+      return x === cardData;
+    });
+    $.ajax({
+      method: "POST",
+      url: "/api/games/" + gameId + "/playCard/" + cardToPlay
+    })
+    .done(function(result) {
+      console.log(result);
+    });
+
 
   });
 
