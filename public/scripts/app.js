@@ -18,6 +18,7 @@ $(() => {
     default:
       gameData.statusDisplay = "WTF";
     }
+    gameData.thisUser = gameData.users.shift();
     var game = $(gameTemplate(gameData))
       .prependTo(gameContainer);
   }

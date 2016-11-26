@@ -31,13 +31,27 @@
     </section>
 
     <script id="game-template" type="text/x-handlebars-template">
-      <article class="game" data-game-id="{{game_id}}">
-        <h1>{{game_id}} {{statusDisplay}}</h1>
-        <ul>
-          {{#each users}}
-            <li>{{username}}</li>
-          {{/each}}
-        </ul>
+      <article class="game card" data-game-id="{{game_id}}">
+        <!-- <button class="btn waves-effect waves-light close-game" type="submit" name="action">Submit
+          <i class="material-icons right">send</i>
+        </button> -->
+        <button class="modal-close btn game-close" style="position:absolute;top:0;right:0;">ABANDON</button>
+
+        <div class="game-card-header">
+          <h4>Game Status: {{statusDisplay}}</h4>
+        </div>
+        {{#if users}}
+        <ul class="game-card-body">
+            {{#each users}}
+              <li>Opponent: {{username}}</li>
+            {{/each}}
+          </ul>
+          {{else}}
+          <p>Opponent: Not found yet</p>
+          {{/if}}
+        <div class="game-card-footer">
+          <span>Game ID: {{game_id}}</span>
+        </div>
       </article>
     </script>
 
