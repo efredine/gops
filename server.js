@@ -1,5 +1,5 @@
+/*jshint esversion: 6 */
 "use strict";
-
 require('dotenv').config();
 
 const PORT          = process.env.PORT || 8080;
@@ -13,6 +13,8 @@ const knexConfig    = require("./knexfile");
 const knex          = require("knex")(knexConfig[ENV]);
 const morgan        = require('morgan');
 const knexLogger    = require('knex-logger');
+const $             = require('jQuery');
+
 app.use(cookieSession ({name:'session', secret: 'secret garden'}));
 
 app.use((req, res, next) => {
@@ -61,6 +63,12 @@ app.get("/", (req, res) => {
 app.get("/gameui", (req, res) => {
   console.dir(`"Res + ${res.locals.username}"`, {colors:true});
   res.render("gameui");
+});
+
+// For testing purposes
+app.get("/test", (req, res) => {
+  console.dir(`"Res + ${res.locals.username}"`, {colors:true});
+  res.render("test");
 });
 
 app.listen(PORT, () => {
