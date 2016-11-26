@@ -244,5 +244,31 @@ module.exports = (knex) => {
     });
   });
 
+  router.post("/:id/setStatus/:newStatus", (req, res) => {
+    const userId = req.session.user.id;
+    const gameId = req.params.id;
+    const newStatus = req.params.newStatus;
+
+    knex('game_statuses')
+    .select('name')
+    .where('id', newStatus)
+    .then(result => {
+      // it's a valid status, so apply the update
+      if(result.length !== 1 ) {
+        return Promise.reject(new Error("Invalid status"));
+      }
+      return knex('games')
+      .update({game_status: newStatus})
+      .where('id', gameId)
+      .then((result) => {
+        res.redirect("/api/games/" + gameId);
+      });
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).send(err.toString());
+    });
+  });
+
   return router;
 };
