@@ -19,7 +19,7 @@
     <script type="text/javascript" src="/scripts/side-nav.js"></script>
     <script type="text/javascript" src="/scripts/modal.js"></script>
     <script type="text/javascript" src="/scripts/new-game.js"></script>
-    
+
   </head>
 
   <body id="body">
@@ -30,13 +30,30 @@
 
     </section>
 
-    <!-- <script id="game-template" type="text/x-handlebars-template">
-      <article class="game" data-game-id="{{game_id}}">
-        <h3>{{created_at}}</h3>
-        <div>You: {{users.0.username}}, Won: {{users.0.won}}</div>
-        <div>Opponent: {{users.1.username}}, Won: {{users.1.won}}</div>
+    <script id="game-template" type="text/x-handlebars-template">
+      <article class="game card" data-game-id="{{game_id}}">
+        <!-- <button class="btn waves-effect waves-light close-game" type="submit" name="action">Submit
+          <i class="material-icons right">send</i>
+        </button> -->
+        <button class="modal-close btn game-close" style="position:absolute;top:0;right:0;">ABANDON</button>
+
+        <div class="game-card-header">
+          <h4>Game Status: {{statusDisplay}}</h4>
+        </div>
+        {{#if users}}
+        <ul class="game-card-body">
+            {{#each users}}
+              <li>Opponent: {{username}}</li>
+            {{/each}}
+          </ul>
+          {{else}}
+          <p>Opponent: Not found yet</p>
+          {{/if}}
+        <div class="game-card-footer">
+          <span>Game ID: {{game_id}}</span>
+        </div>
       </article>
-    </script> -->
+    </script>
 
    <!-- Compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>

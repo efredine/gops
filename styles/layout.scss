@@ -1,12 +1,11 @@
 $primary-color: #8d6e63;
 $secondary-color: #212121;
 
+
 html {
   height: 100%;
-  overflow: hidden;
   body {
     background-color: #d7ccc8;
-    height: 100%;
     margin: 0;
     .navbar {
       background-color: $primary-color;
@@ -46,7 +45,36 @@ html {
       height: 100%;
       margin: 0 auto;
       padding: 10px;
-      width: 90%
+      width: 90%;
+      .game {
+        display: flex;
+        flex-direction: column;
+        background-color: white;
+        position: relative;
+        min-height: 20vh;
+        .game-close {
+          background-color: red;
+        }
+        .game-card-body {
+          min-height: 10vh;
+        }
+        span {
+          position: absolute;
+          right:0;
+          bottom:0;
+          padding: 10px;
+        }
+        div {
+          display: flex;
+        }
+        .close-game {
+          position: absolute;
+          background-color: blue;
+          color: white;
+          right: 0;
+          padding: 10px;
+        }
+      }
     }
   }
 }
