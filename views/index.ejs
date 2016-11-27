@@ -41,6 +41,7 @@
     <script id="active-game-template" type="text/x-handlebars-template">
       <!-- whole container -->
       <div class="container wrapper board" data-game-id={{game_id}}>
+      <h1>{{game_id}} {{prizeSuit}}</h1>
 
       <!-- TOP OF THE BOARD -->
         <div class='container container-top'>
@@ -87,9 +88,10 @@
                 <!-- Code Eric created - as an example of using handle-bars. -->
                       <ul>
                         <li>
-                          <a class="card rank-{{currentTurn.prize}} diams" href="#">
+                          <a class="card rank-{{currentTurn.prize}} {{prizeSuit}}" href="#">
                             <span class="rank">{{currentTurn.prize}}</span>
-                            <span class="suit">&diams;</span>
+                            <span class="suit">&{{game_state.prizeSuit}};</span>
+                            
                           </a>
                         </li>
                       </ul>
@@ -98,7 +100,6 @@
                 <!-- PLAYER PLAYED CARD -->
                 <ul id='playerPlayedCards'></ul>
                 <!-- /PLAYER PLAYED CARD -->
-
               </div> <!-- playing cards in the center -->
             </div> <!-- table cards -->
           </div> <!-- oval -->
@@ -109,9 +110,9 @@
 
           <div class='playingCards simpleCards' id='playerHand'>
           {{#list game_state.users.0.cardsInHand}}
-            <a class="card rank-{{card}} diams" href="#" data-card-to-play={{card}}>
+            <a class="card rank-{{card}} {{suit}}" href="#" data-card-to-play={{card}}>
               <span class="rank">{{card}}</span>
-              <span class="suit">&diams;</span>
+              <span class="suit">&{{suit}};</span>
             </a>
           {{/list}}
           </div>

@@ -59,41 +59,9 @@
     }
  */
 
-const sampleGameState = {
-  // first user is the current user - the one playing the game.
-  users: [
-    {
-      userId: 37,
-      userName: "Alice",
-      score: 42,
-      cardsInHand: [2, 3, 6, 7, 8, 9, 10]
-    },
-    {
-      userId: 55,
-      userName: "Bob",
-      score: 3,
-      cardsInHand: [1, 4, 5, 6, 7, 8, 9, 10]
-    }
-  ],
-  turns: [
-    {
-      cardsPlayed: [1, 3],
-      prize: 2
-    },
-    {
-      cardsPlayed: [5, 2],
-      prize: 4
-    },
-    {
-      cardsPlayed: [null, null],
-      prize: 5
-    }
-  ],
-  completed: false
-};
-
 const shuffle = require('knuth-shuffle').knuthShuffle;
 const DEFAULT_NUMBER_OF_CARDS = 10;
+const suits = ["diams", "hearts", "spades", "clubs"];
 
 /**
  * Returns an array of n numbers ranging from 1 to n.
@@ -133,13 +101,16 @@ function Game(gameState) {
  */
 Game.newGame = function(users, n = DEFAULT_NUMBER_OF_CARDS) {
   const gameState = {};
-  gameState.users = users.map(u => {
+  const gameSuits = shuffle(suits.slice());
+  gameState.users = users.map((u, index) => {
     return Object.assign({}, u, {
       score: 0,
-      cardsInHand: arrayOfNumbers(n)
+      cardsInHand: arrayOfNumbers(n),
+      suit: gameSuits[index % 4]
     });
   });
   gameState.prize = shuffle(arrayOfNumbers(n));
+  gameState.prizeSuit = gameSuits[users.length  % 4];
   gameState.turns = [
     {
       prize: gameState.prize.pop(),
@@ -234,6 +205,7 @@ Game.prototype.getStateForUserId = function(userId) {
     });
   });
   result.completed = this.gameState.completed;
+  result.prizeSuit = this.gameState.prizeSuit;
   return result;
 };
 
