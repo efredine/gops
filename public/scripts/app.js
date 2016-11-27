@@ -1,8 +1,16 @@
 $(() => {
 
+  var STATUS_WAITING = 0;
+  var STATUS_ACTIVE = 1;
+  var STATUS_ABORTED = 2;
+  var STATUS_COMPLETE = 3;
+
   var gameContainer = $('#game-container');
   var gameTemplate = Handlebars.compile($("#game-template").html());
   var activeGameTemplate = Handlebars.compile($("#active-game-template").html());
+  var statsTemplateData = $("#stats-template").html();
+  var statsTemplate = Handlebars.compile(statsTemplateData);
+  console.log(statsTemplateData, statsTemplate);
 
   var cardMap = ['', "A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
 
@@ -58,10 +66,45 @@ $(() => {
     });
   }
 
+  function calculateStats(gameData) {
+    var stats = {};
+    stats.total_played = gameData.length;
+    stats.wins = gameData.reduce(function(sum, game) {
+      if(game.users[0].won) {
+        sum += 1;
+      }
+      return sum;
+    }, 0);
+    stats.losses = gameData.length - stats.wins;
+    return stats;
+  }
+
+  $(".get-stats").on("click", (event) => {
+
+    $.ajax({
+      method: "GET",
+      url: "/api/games?states=0123"
+    })
+    .then((data) => {
+      var statsContainer = $('.title-modal');
+
+      var stats = calculateStats(data);
+      console.log(stats);
+      console.log(statsContainer);
+      $(statsContainer).append(statsTemplate(stats));
+    })
+    .fail(err => console.error(`/api/games?states=0123: ${err}`));
+  })
+
+  $(".thanks").on("click", (event) => {
+    $(".stats").empty();
+  })
+
   function loadGames() {
     $.ajax({
       method: "GET",
-      url: "/api/games"    })
+      url: "/api/games"
+    })
     .done(function(gameData) {
       renderGames(gameData);
     });
@@ -102,4 +145,3 @@ $(() => {
 
   loadGames();
 });
-
