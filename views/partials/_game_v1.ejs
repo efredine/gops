@@ -1,0 +1,82 @@
+    <script id="active-game-template" type="text/x-handlebars-template">
+      <!-- whole container -->
+      <div class="container wrapper board" data-game-id={{game_id}}>
+
+      <!-- TOP OF THE BOARD -->
+        <div class='container container-top'>
+          <div class='opponent'>
+            <div class='playingCards inText' id='oppHand'>
+            </div> <!-- oppHand -->
+          </div> <!-- /opponent -->
+        </div> <!-- /top -->
+
+
+        <!-- MIDDLE OF THE BOARD -->
+        <div class='container container-middle content'>
+          <div class='oval center'>
+
+
+          <!-- MIDDLE OF THE TABLE -->
+            <div class='playingCards'>
+
+
+              <!-- OPPONENTS PLAYED CARD -->
+              <div class='opponentsPlayedCards center'>
+                <div class='playingCards simpleCards'>
+
+                  <div class='card mystery'> <!-- BLANK CARD **** TODO:REMOVE -->
+                    <span class='rank'>?</span>
+                    <span class='suit'></span>
+                  </div>
+
+
+                </div>
+              </div>
+              <!-- /OPPONENTS PLAYED CARD -->
+
+
+              <!-- PRIZE CARDS -->
+
+              <div class='play' id='tableCards simpleCards'>
+
+                <!-- PRIZE CARDS -->
+                <div class='prizeContainer'>
+                  <ul class='deck' id='prizeCards'></ul>
+                </div>
+
+                <!-- Code Eric created - as an example of using handle-bars. -->
+                      <ul>
+                        <li>
+                          <a class="card rank-{{currentTurn.prize}} {{prizeSuit}}" href="#">
+                            <span class="rank">{{currentTurn.prize}}</span>
+                            <span class="suit">&{{game_state.prizeSuit}};</span>
+
+                          </a>
+                        </li>
+                      </ul>
+
+
+                <!-- PLAYER PLAYED CARD -->
+                <ul id='playerPlayedCards'></ul>
+                <!-- /PLAYER PLAYED CARD -->
+              </div> <!-- playing cards in the center -->
+            </div> <!-- table cards -->
+          </div> <!-- oval -->
+        </div> <!-- middle -->
+
+        <!-- BOTTOM -->
+        <div class='container container-bottom'>
+
+          <div class='playingCards simpleCards' id='playerHand'>
+          {{#list game_state.users.0.cardsInHand}}
+            <a class="card rank-{{card}} {{suit}}" href="#" data-card-to-play={{card}}>
+              <span class="rank">{{card}}</span>
+              <span class="suit">&{{suit}};</span>
+            </a>
+          {{/list}}
+          </div>
+        </div>
+
+      </div>  <!-- WHOLE CONTAINER -->
+
+    </script>
