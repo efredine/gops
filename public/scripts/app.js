@@ -29,7 +29,7 @@ $(() => {
     // map player's cards into a format that can be rendered in the template
     gameData.game_state.users.forEach(function(user){
       user.cardsInHand = user.cardsInHand.map(function(cardIndex){
-        return {card: cardMap[cardIndex]};
+        return {card: cardMap[cardIndex], suit: user.suit};
       });
     });
 
