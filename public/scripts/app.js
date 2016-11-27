@@ -33,10 +33,30 @@ $(() => {
       });
     });
 
-    // make it easy for the template to access the current turn
     var turns = gameData.game_state.turns;
-    gameData.currentTurn = turns[turns.length - 1];
+
+    // make it easy for the template to access the current turn
+    gameData.currentTurn = turns.pop();
     gameData.currentTurn.prize = cardMap[gameData.currentTurn.prize];
+    gameData.currentTurn.cardsPlayed = gameData.currentTurn.cardsPlayed.map(function(card, index){
+      var suit = card ? gameData.game_state.users[index].suit : undefined;
+      return {
+        card: card ? cardMap[card] : "?",
+        suit: suit
+      };
+    });
+
+    // format the rest of the turn
+    gameData.turns = turns.map(function(turn){
+      return {
+        card0: cardMap[turn.cardsPlayed[0]],
+        card0Suit: gameData.game_state.users[0].suit,
+        card1: cardMap[turn.cardsPlayed[1]],
+        card1Suit: gameData.game_state.users[1].suit,
+        prize: cardMap[turn.prize],
+        prizeSuit: gameData.game_state.prizeSuit
+      };
+    });
 
     return $(activeGameTemplate(gameData));
   }

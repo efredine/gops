@@ -1,0 +1,72 @@
+<script id="active-game-template" type="text/x-handlebars-template">
+  <div class="container" data-game-id={{game_id}}>
+    <div class="row">
+      <div class="col s2" id="prizeCards">
+        <div class="flow-text">{{users.0.username}}</div>
+        <div class="flow-text">{{game_state.users.0.score}}</div>
+      </div>
+      <div class="col s8 playingCards simpleCards">
+        {{#list turns}}
+          <div class="flow-text">
+              <span class="card rank-{{card0}} {{card0Suit}}" href=#>
+                <span class="rank">{{card0}}</span>
+                <span class="suit">&{{card0Suit}};</span>
+              </span>
+              <span class="card rank-{{prize}} {{prizeSuit}}" href=#>
+                <span class="rank">{{prize}}</span>
+                <span class="suit">&{{prizeSuit}};</span>
+              </span>
+              <span class="card rank-{{card1}} {{card1Suit}}" href=#>
+                <span class="rank">{{card1}}</span>
+                <span class="suit">&{{card1Suit}};</span>
+              </span>
+
+
+          </div>
+        {{/list}}
+
+        <div class="flow-text">
+          <a class="card rank-{{currentTurn.cardsPlayed.0.card}} {{currentTurn.cardsPlayed.0.suit}}" href="#">
+            <span class="rank">{{currentTurn.cardsPlayed.0.card}}</span>
+            {{#if currentTurn.cardsPlayed.0.suit}}
+            <span class="suit">&{{currentTurn.cardsPlayed.0.suit}};</span>
+            {{else}}
+            <span class="suit"></span>
+            {{/if}}
+          </a>
+
+          <a class="card rank-{{currentTurn.prize}} {{prizeSuit}}" href="#">
+            <span class="rank">{{currentTurn.prize}}</span>
+            <span class="suit">&{{game_state.prizeSuit}};</span>
+          </a>
+
+          <a class="card rank-{{currentTurn.cardsPlayed.1.card}} {{currentTurn.cardsPlayed.1.suit}}" href="#">
+            <span class="rank">{{currentTurn.cardsPlayed.1.card}}</span>
+            {{#if currentTurn.cardsPlayed.1.suit}}
+            <span class="suit">&{{currentTurn.cardsPlayed.1.suit}};</span>
+            {{else}}
+            <span class="suit"></span>
+            {{/if}}
+          </a>
+        </div>
+
+      </div>
+      <div class="col s2">
+        <div class="flow-text">{{users.1.username}}</div>
+        <div class="flow-text">{{game_state.users.1.score}}</div>
+      </div>
+    </div>
+    <div class="row">
+      <span class="flow-text">
+          <div class='col s12 playingCards simpleCards' id='playerHand'>
+            {{#list game_state.users.0.cardsInHand}}
+              <a class="card rank-{{card}} {{suit}}" href="#" data-card-to-play={{card}}>
+                <span class="rank">{{card}}</span>
+                <span class="suit">&{{suit}};</span>
+              </a>
+            {{/list}}
+          </div>
+      </span>
+    </div>
+  </div>
+</script>
