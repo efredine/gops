@@ -172,7 +172,7 @@ $(() => {
 
   });
 
-  // loadGames();
+  loadGames();
 
   function updateGame(updatedGameId) {
     $.ajax({

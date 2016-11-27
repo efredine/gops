@@ -1,0 +1,136 @@
+<% include ./partials/_header %>
+
+
+<!-- there is already a body tag in the header -->
+<!-- need to end with body and html -->
+
+  <div class="container">
+    <!-- Page Content goes here -->
+
+    <!-- CONTENT FOR IF USER IS NOT LOGGED IN -->
+
+      <% if (!user) { %>
+        <main>
+          <center>
+            <div class="section">
+
+
+            <h5 class="blue-text">Please, login into your account</h5>
+
+            <div class="container">
+
+                <form class="col s12" method="post" action="/api/users/login">
+                  <div class='row'>
+                    <div class='col s12'>
+                    </div>
+                  </div>
+
+                  <div class='row'>
+                    <div class='input-field col s12'>
+                      <input class='validate' type='text' name='username' id='username' />
+                      <label for='email'>Enter your username</label>
+                    </div>
+                  </div>
+
+                  <div class='row'>
+                    <div class='input-field col s12'>
+                      <input class='validate' type='password' name='password' id='password' />
+                      <label for='password'>Enter your password</label>
+                    </div>
+                  </div>
+
+                  <br />
+                  <center>
+                    <div class='row'>
+                      <button type='submit' name='btn_login' class='col s12 light-blue btn btn-large waves-effect light'>Sign In</button>
+                    </div>
+                  </center>
+                </form>
+              </div>
+              <a href="#!">Create account</a>
+              </div>
+              </center>
+              </main>
+            </div>
+
+          <% } %>
+          <!-- /CONTENT FOR IF USER IS NOT LOGGED IN -->
+
+
+    <% if (user) { %>
+    <div class="row">
+
+          <!-- SIDE BAR       -->
+          <div class="col s3">
+
+            <div class="collection">
+              <h4 class="collection-header center">Your Games</h4>
+              <!-- TODO: NEED TO ADD GAME FOR EACH ACTIVE GAME -->
+              <!-- THIS IS JUST SAMPLE  -->
+              <a href="#!" class="collection-item">Game 1</a>
+              <a href="#!" class="collection-item active">Game 2</a>
+              <a href="#!" class="collection-item">Game 3</a>
+              <a href="#!" class="collection-item">Game 4</a>
+            </div>
+          </div>
+          <!-- /SIDE BAR -->
+
+
+          <!-- GAME CONTAINER -->
+          <div class="col s9">
+            <div class="collection">
+              <h4 class="collection-header center">Games</h4>
+                <div class="game">
+                  <section id="game-container">
+                  </section>
+                </div>
+            </div>
+          </div>
+
+          <!-- /GAME CONTAINER -->
+
+    </div>
+    <% } %>
+
+
+
+
+    </div>
+      <!-- <script type="text/javascript" src="JS/jquery-3.1.1.min.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script> -->
+    <% include ./partials/_game_v1 %>
+
+
+    <script id="game-template" type="text/x-handlebars-template">
+      <article class="game card" data-game-id="{{game_id}}">
+        <!-- <button class="btn waves-effect waves-light close-game" type="submit" name="action">Submit
+          <i class="material-icons right">send</i>
+        </button> -->
+        <button class="modal-close btn game-close" style="position:absolute;top:0;right:0;">ABANDON</button>
+
+        <div class="game-card-header">
+          <h4>Game Status: {{statusDisplay}}</h4>
+        </div>
+        {{#if users}}
+        <ul class="game-card-body">
+            {{#each users}}
+              <li>Opponent: {{username}}</li>
+            {{/each}}
+          </ul>
+          {{else}}
+          <p>Opponent: Not found yet</p>
+          {{/if}}
+        <div class="game-card-footer">
+          <span>Game ID: {{game_id}}</span>
+        </div>
+      </article>
+    </script>
+
+    <script type="text/javascript" src="/vendor/socket.io.min.js"></script>
+    <script type="text/javascript" src="/scripts/app.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.6/handlebars.min.js"></script>
+
+
+    </body>
+</html>
