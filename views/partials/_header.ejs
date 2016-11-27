@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+  <title>Goofspeil - The Game of Pure Skill</title>
+
+  <!-- CSS  -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
+  <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <!-- <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/> -->
+
+</head>
+
+<body>
+
+  <nav class="light-blue">
+    <div class="nav-wrapper container">
+      <a href="/" class="brand-logo">Goofspiel</a>
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+        <% if (user) { %>
+
+          <li><a href="#">New Game</a></li>
+          <li><a href="/dashboard">Dashboard</a></li>
+          <li><a href="/rules">Rules</a></li>
+          <li><a href="/logout">Logout</a></li>
+        <% } %>
+
+        <% if (!user) { %>
+          <li><a href="/dashboard">Sign In</a></li>
+        <% } %>
+      </ul>
+    </div>
+  </nav>

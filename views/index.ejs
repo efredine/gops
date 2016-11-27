@@ -3,8 +3,7 @@
   <head>
     <title>Home Page</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="css/cards.css">
-    <link rel="stylesheet" type="text/css" href="css/gameui.css">
+
     <!--[if lt IE 9]>
         <link rel="stylesheet" type="text/css" href="cards-ie.css" media="screen" />
     <![endif]-->
@@ -15,11 +14,14 @@
     <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
     <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
     <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="css/cards.css">
+
     <!--Import Google Icon Font-->
     <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!-- Compiled and minified CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
-
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css"> -->
+    <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+<link rel="stylesheet" type="text/css" href="css/gameui.css"> <!-- REVIEW: Adding the gameui css last fixes the game board. Temporary fix -->
     <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
     <script type="text/javascript" src="/vendor/socket.io.min.js"></script>
     <script type="text/javascript" src="/scripts/app.js"></script>
@@ -31,59 +33,68 @@
   </head>
 
   <body id="body">
-
     <% include ./partials/_navbar %>
 
-    <section id="game-container">
 
+<<<<<<< HEAD
     </section>
 
     <script id="active-game-template" type="text/x-handlebars-template">
       <!-- whole container -->
       <div class="container wrapper board" data-game-id={{game_id}}>
+=======
+<!-- <div class="video-container"> -->
+  <section id="game-container">
+>>>>>>> UIenhance
 
-      <!-- TOP OF THE BOARD -->
-        <div class='container container-top'>
-          <div class='opponent'>
-            <div class='playingCards inText' id='oppHand'>
-            </div> <!-- oppHand -->
-          </div> <!-- /opponent -->
-        </div> <!-- /top -->
+  </section>
 
+<<<<<<< HEAD
 
         <!-- MIDDLE OF THE BOARD -->
         <div class='container container-middle content'>
           <div class='oval center'>
+=======
+  <script id="active-game-template" type="text/x-handlebars-template">
+    <!-- whole container -->
+    <div class="container wrapper board" data-game-id={{game_id}}>
+>>>>>>> UIenhance
+
+    <!-- TOP OF THE BOARD -->
+      <div class='container container-top'>
+        <div class='opponent'>
+          <div class='playingCards inText tooltip' id='oppHand'>
+            {{#list game_state.users.1.cardsInHand}}
+              <div class='card back'>*</div>
+            {{/list}}
+          </div> <!-- oppHand -->
+        </div> <!-- /opponent -->
+      </div> <!-- /top -->
 
 
-          <!-- MIDDLE OF THE TABLE -->
-            <div class='playingCards'>
+      <!-- MIDDLE OF THE BOARD -->
+      <div class='container container-middle content'>
+        <div class='oval center'>
 
 
-              <!-- OPPONENTS PLAYED CARD -->
-              <div class='opponentsPlayedCards center'>
-                <div class='playingCards simpleCards'>
-
-                  <div class='card mystery'> <!-- BLANK CARD **** TODO:REMOVE -->
-                    <span class='rank'>?</span>
-                    <span class='suit'></span>
-                  </div>
+        <!-- MIDDLE OF THE TABLE -->
+          <div class='playingCards'>
 
 
-                </div>
+            <!-- OPPONENTS PLAYED CARD -->
+            <div class='opponentsPlayedCards center'>
+              <div class='playingCards simpleCards'>
+                <div class='card mystery'></div>
               </div>
-              <!-- /OPPONENTS PLAYED CARD -->
+            </div>
+            <!-- /OPPONENTS PLAYED CARD -->
 
 
-              <!-- PRIZE CARDS -->
+            <!-- PRIZE CARDS -->
 
-              <div class='play' id='tableCards simpleCards'>
+            <div class='play' id='tableCards simpleCards'>
 
-                <!-- PRIZE CARDS -->
-                <div class='prizeContainer'>
-                  <ul class='deck' id='prizeCards'></ul>
-                </div>
-
+<<<<<<< HEAD
                 <!-- Code Eric created - as an example of using handle-bars. -->
                       <ul>
                         <li>
@@ -116,11 +127,24 @@
           {{/list}}
           </div>
         </div>
+=======
+              <!-- PRIZE CARDS -->
+              <div class='prizeContainer'>
+                <ul>
+                  <li>
+                    <a class="card rank-{{currentTurn.prize}} diams" href="#">
+                      <span class="rank">{{currentTurn.prize}}</span>
+                      <span class="suit">&diams;</span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+>>>>>>> UIenhance
 
-      </div>  <!-- WHOLE CONTAINER -->
+              <!-- Code Eric created - as an example of using handle-bars. -->
 
-    </script>
 
+<<<<<<< HEAD
     <!-- <script id="stats-template" type="text/x-handlebars-template">
 
     </script> -->
@@ -131,27 +155,66 @@
           <i class="material-icons right">send</i>
         </button> -->
         <button class="modal-close btn game-close" style="position:absolute;top:0;right:0;">ABANDON</button>
+=======
+>>>>>>> UIenhance
 
-        <div class="game-card-header">
-          <h4>Game Status: {{statusDisplay}}</h4>
-        </div>
-        {{#if users}}
-        <ul class="game-card-body">
-            {{#each users}}
-              <li>Opponent: {{username}}</li>
-            {{/each}}
-          </ul>
-          {{else}}
-          <p>Opponent: Not found yet</p>
-          {{/if}}
-        <div class="game-card-footer">
-          <span>Game ID: {{game_id}}</span>
-        </div>
-      </article>
-    </script>
+              <!-- PLAYER PLAYED CARD -->
+              <div class='playersPlayedCards center'>
+                <div class='playingCards simpleCards'>
+                  <div class='card mystery'> <!-- BLANK CARD **** TODO:REMOVE -->
+                  </div>
+                </div>
+              </div>
+              <!-- /PLAYER PLAYED CARD -->
 
-   <!-- Compiled and minified JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.6/handlebars.min.js"></script>
-  </body>
+            </div> <!-- playing cards in the center -->
+          </div> <!-- table cards -->
+        </div> <!-- oval -->
+      </div> <!-- middle -->
+
+      <!-- BOTTOM -->
+      <div class='container container-bottom'>
+
+        <div class='playingCards simpleCards' id='playerHand'>
+        {{#list game_state.users.0.cardsInHand}}
+          <a class="card rank-{{card}} diams" href="#" data-card-to-play={{card}}>
+            <span class="rank">{{card}}</span>
+            <span class="suit">&diams;</span>
+          </a>
+        {{/list}}
+        </div>
+      </div>
+
+    </div>  <!-- WHOLE CONTAINER -->
+
+  </script>
+
+  <script id="game-template" type="text/x-handlebars-template">
+    <article class="game card" data-game-id="{{game_id}}">
+      <button class="modal-close btn game-close" style="position:absolute;top:0;right:0;">ABANDON</button>
+
+      <div class="game-card-header">
+        <h4>Game Status: {{statusDisplay}}</h4>
+      </div>
+      {{#if users}}
+      <ul class="game-card-body">
+          {{#each users}}
+            <li>Opponent: {{username}}</li>
+          {{/each}}
+        </ul>
+        {{else}}
+        <p>Opponent: Not found yet</p>
+        {{/if}}
+      <div class="game-card-footer">
+        <span>Game ID: {{game_id}}</span>
+      </div>
+    </article>
+  </script>
+
+ <!-- Compiled and minified JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.6/handlebars.min.js"></script>
+</body>
+<!-- </div> -->
+
 </html>
