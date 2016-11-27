@@ -70,7 +70,7 @@ $(() => {
   function calculateStats(gameData) {
     var stats = {};
     stats.total_played = gameData.length;
-    stats.wins = gameData.reduce(function(sum, game) {
+    stats.wins = gameData.reduce((sum, game) => {
       if(game.users[0].won) {
         sum += 1;
       }
@@ -90,8 +90,6 @@ $(() => {
       var statsContainer = $('.title-modal');
 
       var stats = calculateStats(data);
-      console.log(stats);
-      console.log(statsContainer);
       $(statsContainer).append(statsTemplate(stats));
     })
     .fail(err => console.error(`/api/games?states=0123: ${err}`));
@@ -100,6 +98,14 @@ $(() => {
   $(".thanks").on("click", (event) => {
     $(".stats").empty();
   })
+
+  function yourScore(gameData) {
+    var score = {};
+    score.your_score = gameData.reduce((sum, game) => {
+      sum += score;
+      return sum;
+    }, 0);
+  }
 
   function loadGames() {
     $.ajax({

@@ -17,12 +17,16 @@ html {
       overflow: auto;
       padding: 10px 10px;
       width: 100%;
+      .btn-nav {
+        width: 145px;
+      }
       .form {
         height: auto;
       }
       .intro {
         color: $secondary-color;
         font-size: 20px;
+        margin: 0 10px 0 10px;
       }
       .stats {
         color: $primary-color;
@@ -35,6 +39,10 @@ html {
         color: $secondary-color;
         font-size: 30px;
         margin: 0;
+      }
+      .username {
+        margin: 0 10px 0 10px;
+        width: 80%;
       }
       ul {
         color: $primary-color;

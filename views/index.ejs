@@ -26,8 +26,8 @@
     <script type="text/javascript" src="/scripts/side-nav.js"></script>
     <script type="text/javascript" src="/scripts/modal.js"></script>
     <script type="text/javascript" src="/scripts/new-game.js"></script>
-
     <script src="https://cdn.rawgit.com/nnattawat/flip/master/dist/jquery.flip.min.js"></script>
+
   </head>
 
   <body id="body">
@@ -37,11 +37,10 @@
     <section id="game-container">
 
     </section>
-    
+
     <script id="active-game-template" type="text/x-handlebars-template">
       <!-- whole container -->
       <div class="container wrapper board" data-game-id={{game_id}}>
-      <h1>{{game_id}} {{prizeSuit}}</h1>
 
       <!-- TOP OF THE BOARD -->
         <div class='container container-top'>
@@ -51,7 +50,7 @@
           </div> <!-- /opponent -->
         </div> <!-- /top -->
 
-      
+
         <!-- MIDDLE OF THE BOARD -->
         <div class='container container-middle content'>
           <div class='oval center'>
@@ -91,7 +90,7 @@
                           <a class="card rank-{{currentTurn.prize}} {{prizeSuit}}" href="#">
                             <span class="rank">{{currentTurn.prize}}</span>
                             <span class="suit">&{{game_state.prizeSuit}};</span>
-                            
+
                           </a>
                         </li>
                       </ul>
@@ -104,7 +103,7 @@
             </div> <!-- table cards -->
           </div> <!-- oval -->
         </div> <!-- middle -->
-       
+
         <!-- BOTTOM -->
         <div class='container container-bottom'>
 
