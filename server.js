@@ -24,7 +24,7 @@ server.listen(PORT);
 app.use(cookieSession({name: 'session', secret: 'secret garden'}));
 
 app.use((req, res, next) => {
-  if(req.session.user) {
+  if (req.session.user) {
     let currentUser = req.session.user;
     res.locals.user = currentUser;
   } else {
@@ -82,3 +82,18 @@ console.dir(`"Example app listening on port ${PORT}"`, {colors:true});
 
 dispatch.init(io);
 
+
+app.get("/dashboard", (req, res) => {
+  res.render("dashboard");
+})
+
+app.get("/rules", (req, res) => {
+  console.dir(`"Res + ${res.locals.username}"`, {colors:true});
+  res.render("rules");
+});
+
+app.get('/logout', function(req, res) {
+  req.session = null
+  res.redirect('/');
+  return;
+});
