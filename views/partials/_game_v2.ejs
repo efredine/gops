@@ -40,7 +40,7 @@
     <div class="row">
 
       <!-- MIDDLE ROW LEFT -->
-      <div class="col s1 playingCards inText">
+      <div class="col s1 playingCards inText turn-history">
         <table class="highlight centered">
 
           <thead>
@@ -103,7 +103,7 @@
             </div>
             {{/list}} -->
 
-          <div class="flow-text valign">
+          <div class="flow-text valign current-turn">
 
             <div class="card rank-{{currentTurn.cardsPlayed.0.card}} {{canPlay}}">
               <span class="rank">{{currentTurn.cardsPlayed.0.card}}</span> {{#if currentTurn.cardsPlayed.0.suit}}

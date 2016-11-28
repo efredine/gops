@@ -197,6 +197,8 @@ $(() => {
     // updatedGame data has not yet been altered.
     //
     // TODO: make it immutable because this is a dangeroous way to work!
+    var newTurn = false;
+
     if(previousGame){
       if(updatedGame.game_status === 2 ) {
         Materialize.toast("Opponent has left the game.", 3000);
@@ -206,6 +208,7 @@ $(() => {
         if(previousTurns.length < updatedTurns.length - 1) {
           // This is a new turn.  If the turn happened because the opponent played
           // the last card, display a toast.
+          newTurn = true;
           if(previousGame.currentTurn.cardsPlayed[1].card === "?") {
             var opponentCardPlayed = cardMap[updatedTurns[updatedTurns.length - 2].cardsPlayed[1]];
             Materialize.toast(`Opponent played a ${opponentCardPlayed} - new turn.`, 3000);
@@ -222,8 +225,12 @@ $(() => {
         }
       }
     }
-
-    game.replaceWith(renderActiveGame(updatedGame));
+    var renderedGame = renderActiveGame(updatedGame);
+    if(newTurn){
+      renderedGame.find(".turn-history").fadeOut(200).fadeIn(200).fadeOut(200).fadeIn(500);
+    }
+    renderedGame.find(".current-turn").hide().fadeIn(2000);
+    game.replaceWith(renderedGame);
   }
 
   $('body').on('click', '#playerHand a.card', function (event) {
