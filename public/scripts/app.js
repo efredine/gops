@@ -154,13 +154,24 @@ $(() => {
   $(".new-game").on("click", (event) => {
 
     $.ajax({
-      method: "POST",
-      url: "/api/games/new"
+      method: "GET",
+      url: "/api/games/?states=0"
     })
-    .then((game) => {
-      renderGame(game);
+    .then((response) => {
+      if(response.length === 0) {
+        $.ajax({
+          method: "POST",
+          url: "/api/games/new"
+        })
+        .then((game) => {
+          renderGame(game);
+        })
+        .fail(err => console.error(`/api/games/new: ${err}`));
+      } else {
+        Materialize.toast("Waiting for Opponent...", 5000);
+      }
     })
-    .fail(err => console.error(`/api/games/new: ${err}`));
+
 
   });
 
