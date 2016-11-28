@@ -86,7 +86,7 @@ $(() => {
     }
     gameData.thisUser = gameData.users.shift();
     var game = $(gameTemplate(gameData))
-      .prependTo(gameContainer);
+      .appendTo(gameContainer);
   }
 
   function renderGames(gamesData) {
@@ -105,6 +105,9 @@ $(() => {
       return sum;
     }, 0);
     stats.losses = gameData.length - stats.wins;
+    stats.win_percentage = (stats.wins / stats.total_played) * 100;
+    // stats.your_score = yourScore(gameData);
+    // // debugger;
     return stats;
   }
 
@@ -127,13 +130,16 @@ $(() => {
     $(".stats").empty();
   })
 
-  function yourScore(gameData) {
-    var score = {};
-    score.your_score = gameData.reduce((sum, game) => {
-      sum += score;
-      return sum;
-    }, 0);
-  }
+  // function yourScore(gameData) {
+  //   gameData.forEach((game) => {
+  //     var score = {}
+  //     game.users[0].score.reduce((sum, game) => {
+  //       score += sum;
+  //       return sum;
+  //     }, 0);
+  //   });
+  //   return score;
+  // }
 
   function loadGames() {
     $.ajax({

@@ -12,24 +12,24 @@
     <li><div class="divider"></div></li>
 
     <% if (user) { %>
-      <button class="btn wafes-effect waves-light new-game btn-nav" type="button"
+      <button class="btn wafes-effect light-blue new-game btn-nav" type="button"
       name="action">New Game</button>
       <li><div class="divider"></div></li>
-      <button class="btn wafes-effect waves-light get-stats btn-nav" type="button"
-      name="action" data-target="modal1">Your Stats</button>
+      <button class="btn wafes-effect light-blue get-stats btn-nav" type="button"
+      name="action" data-target="modal1">Stats</button>
     <% } %>
 
     <% if (user) { %>
       <li><div class="divider"></div></li>
       <form class="form" method="POST" action="/api/users/logout">
-        <button class="btn waves-effect waves-light btn-nav" type="submit" name="action">Sign Out</button>
+        <button class="btn waves-effect light-blue btn-nav" type="submit" name="action">Sign Out</button>
       </form>
     <% } %>
 
     <% if (!user) { %>
       <form class="form" method="POST" action="/api/users/login">
         <input class="username" name="username" type="text" placeholder="Username">
-        <button class="btn waves-effect waves-light btn-nav" type="submit" name="action">Sign In</button>
+        <button class="btn waves-effect light-blue btn-nav" type="submit" name="action">Sign In</button>
       </form>
     <% } %>
 
@@ -53,7 +53,9 @@
 <script id="stats-template" type="text/x-handlebars-template">
   <div class="stats">
     <li>Games Played: {{total_played}}</li>
-    <li>Wins: {{wins}}</li>
-    <li>Losses: {{losses}}</li>
+    <!-- <li>Wins: {{wins}}</li>
+    <li>Losses: {{losses}}</li> -->
+    <li>You've Won %{{win_percentage}} of Games Played</li>
+    <li>Your Overall Score: {{your_score}}</li>
   </div>
 </script>
