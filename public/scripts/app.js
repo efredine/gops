@@ -46,11 +46,18 @@ $(() => {
     gameData.currentTurn = turns.pop();
     gameData.currentTurn.prize = cardMap[gameData.currentTurn.prize];
     gameData.currentTurn.cardsPlayed = gameData.currentTurn.cardsPlayed.map(function(card, index){
-      var suit = card ? gameData.game_state.users[index].suit : undefined;
-      return {
-        card: card ? cardMap[card] : "?",
-        suit: suit
-      };
+      if (index > 0) {
+        return {
+          card: card ? "X" : "?",
+          suit: undefined
+        };
+      } else {
+        var suit = card ? gameData.game_state.users[index].suit : undefined;
+        return {
+          card: card ? cardMap[card] : "?",
+          suit: suit
+        };
+      }
     });
 
     // format the rest of the turn
@@ -201,7 +208,7 @@ $(() => {
           // the last card, display a toast.
           if(previousGame.currentTurn.cardsPlayed[1].card === "?") {
             var opponentCardPlayed = cardMap[updatedTurns[updatedTurns.length - 2].cardsPlayed[1]];
-            Materialize.toast(`Opponent played: ${opponentCardPlayed}`, 3000);
+            Materialize.toast(`Opponent played a ${opponentCardPlayed} - new turn.`, 3000);
           }
         } else {
           // This is an update to an existing turn without creating a new turn.
@@ -210,7 +217,7 @@ $(() => {
           currentTurn = updatedTurns[updatedTurns.length - 1];
           // card played by opponent
           if(currentTurn.cardsPlayed[0] === null) {
-            Materialize.toast(`Opponent played: ${cardMap[currentTurn.cardsPlayed[1]]}`, 3000);
+            Materialize.toast(`Opponent played a card - waiting for you.`, 3000);
           }
         }
       }
