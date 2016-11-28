@@ -1,5 +1,5 @@
 <script id="active-game-template" type="text/x-handlebars-template">
-  <div class="container" data-game-id={{game_id}}>
+  <div class="container game card" data-game-id={{game_id}}>
     <div class="row">
       <div class="col s2" id="prizeCards">
         <div class="flow-text">{{users.0.username}}</div>
@@ -68,5 +68,16 @@
           </div>
       </span>
     </div>
+    <div class="row">
+      <div class="col s4">
+        <span>Game ID: {{game_id}}</span>
+      </div>
+      <div class="col s6">
+      </div>
+      <div class="s2">
+        <a class="btn game-close">close</a>
+      </div>
+    </div>
+
   </div>
 </script>
