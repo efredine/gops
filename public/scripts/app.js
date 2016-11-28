@@ -191,7 +191,7 @@ $(() => {
     // TODO: make it immutable because this is a dangeroous way to work!
     if(previousGame){
       if(updatedGame.game_status === 2 ) {
-        Materialize.toast("Opponent has left the game.");
+        Materialize.toast("Opponent has left the game.", 3000);
       } else {
         var previousTurns = previousGame.game_state.turns;
         var updatedTurns = updatedGame.game_state.turns;
