@@ -71,6 +71,8 @@ $(() => {
       };
     });
 
+    gameData.turns = gameData.turns.slice(-4);
+
     var renderedGame = $(activeGameTemplate(gameData));
     renderedGame.data("game-object", gameData);
     return renderedGame;
@@ -165,7 +167,7 @@ $(() => {
       } else {
         Materialize.toast("Waiting for Opponent...", 5000);
       }
-    })
+    });
 
 
   });
@@ -181,7 +183,7 @@ $(() => {
     .then((game) => {
       gameContainer.empty();
       loadGames();
-    })
+    });
 
   });
 
