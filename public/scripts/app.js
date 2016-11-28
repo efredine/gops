@@ -17,7 +17,6 @@ $(() => {
   var statsTemplateData = $("#stats-template");
   if(statsTemplateData) {
     var statsTemplate = Handlebars.compile(statsTemplateData.html());
-
   }
   var activeGameTemplate = Handlebars.compile($("#active-game-template").html());
 
@@ -32,7 +31,6 @@ $(() => {
   });
 
   function renderActiveGame(gameData) {
-
     // map player's cards into a format that can be rendered in the template
     gameData.game_state.users.forEach(function(user){
       user.cardsInHand = user.cardsInHand.map(function(cardIndex){
@@ -44,6 +42,7 @@ $(() => {
 
     // make it easy for the template to access the current turn
     gameData.currentTurn = turns.pop();
+    gameData.canPlayClass = !gameData.currentTurn[0] ? "cannotPlay" : "";
     gameData.currentTurn.prize = cardMap[gameData.currentTurn.prize];
     gameData.currentTurn.cardsPlayed = gameData.currentTurn.cardsPlayed.map(function(card, index){
       if (index > 0) {
@@ -75,10 +74,10 @@ $(() => {
     var renderedGame = $(activeGameTemplate(gameData));
     renderedGame.data("game-object", gameData);
     return renderedGame;
+    return $(activeGameTemplate(gameData));
   }
 
   function renderGame(gameData) {
-
     if(gameData.game_status === 1) {
       return renderActiveGame(gameData).prependTo(gameContainer);
     }
@@ -119,7 +118,6 @@ $(() => {
   }
 
   $(".get-stats").on("click", (event) => {
-
     $.ajax({
       method: "GET",
       url: "/api/games?states=0123"
@@ -241,8 +239,6 @@ $(() => {
     .done(function(updatedGame) {
       transition(updatedGame);
     });
-
-
   });
 
   function updateGame(updatedGameId) {

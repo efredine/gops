@@ -3,9 +3,9 @@
   <head>
     <title>Home Page</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-<!--     <link rel="stylesheet" type="text/css" href="css/cards.css">
-    <link rel="stylesheet" type="text/css" href="css/gameui.css">
- -->    <!--[if lt IE 9]>
+    <link rel="stylesheet" type="text/css" href="css/cards.css">
+    <!-- <link rel="stylesheet" type="text/css" href="css/gameui.css"> -->
+        <!--[if lt IE 9]>
         <link rel="stylesheet" type="text/css" href="cards-ie.css" media="screen" />
     <![endif]-->
     <!--[if IE 9]>
@@ -34,37 +34,34 @@
 
     <% include ./partials/_navbar %>
 
-    <section id="game-container">
 
-    </section>
+      <section id="game-container">
 
-    <% include ./partials/_game_v2 %>
+      </section>
+      <% include ./partials/_game_v2 %>
 
 
-    <script id="game-template" type="text/x-handlebars-template">
-      <article class="game card" data-game-id="{{game_id}}">
-        <!-- <button class="btn waves-effect waves-light close-game" type="submit" name="action">Submit
-          <i class="material-icons right">send</i>
-        </button> -->
-        <button class="modal-close btn game-close" style="position:absolute;top:0;right:0;">ABANDON</button>
+      <script id="game-template" type="text/x-handlebars-template">
+        <article class="game card" data-game-id="{{game_id}}">
+          <button class="modal-close btn game-close" style="position:absolute;top:0;right:0;">Abandon</button>
 
-        <div class="game-card-header">
-          <h4>Game Status: {{statusDisplay}}</h4>
-        </div>
-        {{#if users}}
-        <ul class="game-card-body">
-            {{#each users}}
-              <li>Opponent: {{username}}</li>
-            {{/each}}
-          </ul>
-          {{else}}
-          <p>Opponent: Not found yet</p>
-          {{/if}}
-        <div class="game-card-footer">
-          <span>Game ID: {{game_id}}</span>
-        </div>
-      </article>
-    </script>
+          <div class="game-card-header">
+            <h4>Game Status: {{statusDisplay}}</h4>
+          </div>
+          {{#if users}}
+          <ul class="game-card-body">
+              {{#each users}}
+                <li>Opponent: {{username}}</li>
+              {{/each}}
+            </ul>
+            {{else}}
+            <p>Opponent: Not found yet</p>
+            {{/if}}
+          <div class="game-card-footer">
+            <span>Game ID: {{game_id}}</span>
+          </div>
+        </article>
+      </script>
 
    <!-- Compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
