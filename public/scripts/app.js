@@ -153,6 +153,7 @@ $(() => {
           url: "/api/games/new"
         })
         .then((game) => {
+          $(".button-collapse").sideNav("hide");
           renderGame(game);
         })
         .fail(err => console.error(`/api/games/new: ${err}`));
