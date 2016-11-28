@@ -1,5 +1,4 @@
 $(() => {
-  console.log("loaded")
   // websocket for communicating with the server
   var socket = undefined;
 
@@ -66,7 +65,9 @@ $(() => {
       };
     });
 
-    return $(activeGameTemplate(gameData));
+    var renderedGame = $(activeGameTemplate(gameData));
+    renderedGame.data("game-object", gameData);
+    return renderedGame;
   }
 
   function renderGame(gameData) {
@@ -159,6 +160,41 @@ $(() => {
 
   });
 
+  function transition(updatedGame) {
+    var game = $(`[data-game-id=${updatedGame.game_id}]`);
+    var previousGame = game.data('game-object');
+
+    // previous game doesn't exist when the game is first started.
+    // note that the previousGame data is different from the updatedGame data
+    // The previous game data was formatted for display by the template whereas the
+    // updatedGame data has not yet been altered.
+    //
+    // TODO: make it immutable because this is a dangeroous way to work!
+    if(previousGame){
+      var previousTurns = previousGame.game_state.turns;
+      var updatedTurns = updatedGame.game_state.turns;
+      if(previousTurns.length < updatedTurns.length - 1) {
+        // This is a new turn.  If the turn happened because the opponent played
+        // the last card, display a toast.
+        if(previousGame.currentTurn.cardsPlayed[1].card === "?") {
+          var opponentCardPlayed = cardMap[updatedTurns[updatedTurns.length - 2].cardsPlayed[1]];
+          Materialize.toast(`Opponent played: ${opponentCardPlayed}`, 3000);
+        }
+      } else {
+        // This is an update to an existing turn without creating a new turn.
+        // That means that either you or your opponent played the first card.
+        // If it's the opponent who played the first card, display a toast.
+        currentTurn = updatedTurns[updatedTurns.length - 1];
+        // card played by opponent
+        if(currentTurn.cardsPlayed[0] === null) {
+          Materialize.toast(`Opponent played: ${cardMap[currentTurn.cardsPlayed[1]]}`, 3000);
+        }
+      }
+    }
+
+    game.replaceWith(renderActiveGame(updatedGame));
+  }
+
   $('body').on('click', '#playerHand a.card', function (event) {
     event.preventDefault();
     var card = $(this);
@@ -172,14 +208,11 @@ $(() => {
       url: "/api/games/" + gameId + "/playCard/" + cardToPlay
     })
     .done(function(updatedGame) {
-      $(`[data-game-id=${updatedGame.game_id}]`)
-      .replaceWith(renderActiveGame(updatedGame));
+      transition(updatedGame);
     });
 
 
   });
-
-  loadGames();
 
   function updateGame(updatedGameId) {
     $.ajax({
@@ -187,8 +220,7 @@ $(() => {
       url: "/api/games/" + updatedGameId
     })
     .done(function(updatedGame){
-      $(`[data-game-id=${updatedGame.game_id}]`)
-      .replaceWith(renderActiveGame(updatedGame));
+      transition(updatedGame);
     });
   }
 
@@ -208,4 +240,6 @@ $(() => {
       });
     }
   });
+
+  loadGames();
 });
