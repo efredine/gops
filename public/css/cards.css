@@ -600,3 +600,13 @@
   font-size: 95%;
   text-align: center;
 }
+
+.game-close {
+  padding: 0;
+  height: auto;
+  font-size: 12px;
+}
+
+.section {
+  margin-top: 50px;
+}

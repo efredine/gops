@@ -1,6 +1,6 @@
 <script id="active-game-template" type="text/x-handlebars-template">
 
-  <div class="container section gameBoard" data-game-id={{game_id}}>
+  <div class="container section" data-game-id={{game_id}}>
 
     <!-- VISUAL SECTION DIVIDER -->
     <div class="divider"></div>
@@ -20,7 +20,7 @@
       <!-- /TOP ROW LEFT -->
 
       <!-- TOP ROW MIDDLE -->
-      <div class="col s4 center">
+      <div class="col s4 center tiny">
         <h5>vs</h5>
       </div>
       <!-- TOP ROW RIGHT -->
@@ -36,7 +36,7 @@
 
 
 
-    <!-- MIDDLE ROW 1-->
+    <!-- MIDDLE ROW-->
     <div class="row">
 
       <!-- MIDDLE ROW LEFT -->
@@ -77,44 +77,22 @@
           </tbody>
         </table>
 
-
-
       </div>
       <!-- /MIDDLE ROW LEFT -->
 
       <!-- MIDDLE ROW RIGHT -->
       <div class="col push-s4 center-align valign-wrapper">
         <div class=" playingCards inText">
-          <!-- {{#list turns}}
-            <div class="flow-text">
-
-              <span class="card rank-{{card0}} {{card0Suit}}" href=#>
-                    <span class="rank">{{card0}}</span>
-              <span class="suit">&{{card0Suit}};</span>
-              </span>
-              <span class="card rank-{{prize}} {{prizeSuit}}" href=#>
-                    <span class="rank">{{prize}}</span>
-              <span class="suit">&{{prizeSuit}};</span>
-              </span>
-              <span class="card rank-{{card1}} {{card1Suit}}"><span class="rank">{{card1}}</span>
-              <span class="suit">&{{card1Suit}};</span>
-              </span>
-
-            </div>
-            {{/list}} -->
-
           <div class="flow-text valign current-turn">
-
             <div class="card rank-{{currentTurn.cardsPlayed.0.card}} {{canPlay}}">
               <span class="rank">{{currentTurn.cardsPlayed.0.card}}</span> {{#if currentTurn.cardsPlayed.0.suit}}
               <span class="suit">&{{currentTurn.cardsPlayed.0.suit}};</span> {{else}}
               <span class="suit"></span> {{/if}}
-
             </div>
+
             <span class="card rank-{{currentTurn.prize}} {{prizeSuit}}" href="#">
-              <span class="rank">{{currentTurn.prize}}</span>
-            <span class="suit">&{{game_state.prizeSuit}};</span>
-            </span>
+            <span class="rank">{{currentTurn.prize}}</span>
+            <span class="suit">&{{game_state.prizeSuit}};</span></span>
 
             <div class="card rank-{{currentTurn.cardsPlayed.1.card}} {{currentTurn.cardsPlayed.1.suit}}" href="#">
               <span class="rank">{{currentTurn.cardsPlayed.1.card}}</span> {{#if currentTurn.cardsPlayed.1.suit}}
@@ -122,12 +100,11 @@
               <span class="suit"></span> {{/if}}
             </div>
           </div>
-
         </div>
       </div>
-
-
       <!-- /MIDDLE ROW RIGHT -->
+    </div>
+      <!-- /MIDDLE ROW -->
 
       <!-- BOTTOM ROW -->
       <div class="row">
@@ -135,17 +112,24 @@
           <span class="flow-text">
             <div class='playingCards inText' id='playerHand'>
               {{#list game_state.users.0.cardsInHand}}
-                <a class="card rank-{{card}} {{suit}}" href="#" data-card-to-play={{card}}>
-                  <span class="rank">{{card}}</span>
-          <span class="suit">&{{suit}};</span>
-          </a>
-          {{/list}}
+              <a class="card rank-{{card}} {{suit}}" href="#" data-card-to-play={{card}}>
+                <span class="rank">{{card}}</span>
+                <span class="suit">&{{suit}};</span>
+              </a>
+              {{/list}}
+            </div>
+          </span>
         </div>
-        </span>
       </div>
+      <!-- /BOTTOM ROW -->
+
+      <!-- GAME BUTTONS -->
+      <div class="row">
+        <div class="right">
+          <a class="waves-effect waves-light btn-flat game-close red white-text"><i class="material-icons left">clear</i>Quit</a>
+        </div>
       </div>
-    <!-- /BOTTOM ROW -->
 
-
+      <!-- /GAME BUTTONS -->
 
 </script>
