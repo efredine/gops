@@ -593,7 +593,10 @@
 .playingCards ul.deck li:nth-child(30) { left: 58px; bottom: 29px; }
 .playingCards ul.deck li:nth-child(31) { left: 60px; bottom: 30px; }
 .playingCards ul.deck li:nth-child(32) { left: 62px; bottom: 31px; }
+
 .historyCell {
   margin: 0;
   padding: 0 0;
+  font-size: 80%;
+  text-align: center;
 }
