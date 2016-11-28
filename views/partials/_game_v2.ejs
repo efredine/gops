@@ -106,7 +106,12 @@
 
             <div class="card rank-{{currentTurn.cardsPlayed.0.card}} {{canPlay}}">
               <span class="rank">{{currentTurn.cardsPlayed.0.card}}</span>
+            {{#if currentTurn.cardsPlayed.0.suit}}
               <span class="suit">&{{currentTurn.cardsPlayed.0.suit}};</span>
+            {{else}}
+              <span class="suit"></span>
+            {{/if}}
+
             </div>
 
             <span class="card rank-{{currentTurn.prize}} {{prizeSuit}}" href="#">
@@ -115,9 +120,12 @@
           </span>
 
             <div class="card rank-{{currentTurn.cardsPlayed.1.card}} {{currentTurn.cardsPlayed.1.suit}}" href="#">
-              <span class="rank">{{currentTurn.cardsPlayed.1.card}}</span> {{#if currentTurn.cardsPlayed.1.suit}}
-              <span class="suit">&{{currentTurn.cardsPlayed.1.suit}};</span> {{else}}
-              <span class="suit"></span> {{/if}}
+              <span class="rank">{{currentTurn.cardsPlayed.1.card}}</span>
+              {{#if currentTurn.cardsPlayed.1.suit}}
+              <span class="suit">&{{currentTurn.cardsPlayed.1.suit}};</span>
+              {{else}}
+              <span class="suit"></span>
+              {{/if}}
             </div>
           </div>
 
