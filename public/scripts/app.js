@@ -106,6 +106,8 @@ $(() => {
       return sum;
     }, 0);
     stats.losses = gameData.length - stats.wins;
+    stats.win_percentage = (stats.wins / stats.total_played) * 100;
+    // stats.your_score = yourScore(gameData);
     return stats;
   }
 
@@ -128,13 +130,16 @@ $(() => {
     $(".stats").empty();
   })
 
-  function yourScore(gameData) {
-    var score = {};
-    score.your_score = gameData.reduce((sum, game) => {
-      sum += score;
-      return sum;
-    }, 0);
-  }
+  // function yourScore(gameData) {
+  //   gameData.forEach((game) => {
+  //     var score = {}
+  //     game.users[0].score.reduce((sum, game) => {
+  //       score += sum;
+  //       return sum;
+  //     }, 0);
+  //   });
+  //   return score;
+  // }
 
   function loadGames() {
     $.ajax({
@@ -147,16 +152,30 @@ $(() => {
   }
 
   $(".new-game").on("click", (event) => {
-    event.preventDefault();
 
     $.ajax({
-      method: 'POST',
-      url: '/api/games/new'
+      method: "POST",
+      url: "/api/games/new"
     })
     .then((game) => {
       renderGame(game);
     })
     .fail(err => console.error(`/api/games/new: ${err}`));
+
+  });
+
+  $("body").on("click", ".game-close", function(event) {
+
+    var gameId = $(this).closest('[data-game-id]').data('game-id');
+
+    $.ajax({
+      method: "POST",
+      url: "/api/games/" + gameId + "/setStatus/2"
+    })
+    .then((game) => {
+      loadGames();
+      // renderGame(game);
+    })
 
   });
 
