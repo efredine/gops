@@ -130,17 +130,6 @@ $(() => {
     $(".stats").empty();
   })
 
-  // function yourScore(gameData) {
-  //   gameData.forEach((game) => {
-  //     var score = {}
-  //     game.users[0].score.reduce((sum, game) => {
-  //       score += sum;
-  //       return sum;
-  //     }, 0);
-  //   });
-  //   return score;
-  // }
-
   function loadGames() {
     $.ajax({
       method: "GET",
@@ -184,8 +173,8 @@ $(() => {
       url: "/api/games/" + gameId + "/setStatus/2"
     })
     .then((game) => {
+      gameContainer.empty();
       loadGames();
-      // renderGame(game);
     })
 
   });
