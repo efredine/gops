@@ -1,67 +1,3 @@
-html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  font-size: 100%;
-  font: inherit;
-  vertical-align: baseline;
-}
-
-/* HTML5 display-role reset for older browsers */
-
-article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
-  display: block;
-}
-
-body {
-  line-height: 1vh;
-  background: rgb(246,230,180);
-  background: -moz-linear-gradient(-45deg,  rgba(246,230,180,1) 0%, rgba(237,144,23,1) 100%);
-  background: -webkit-linear-gradient(-45deg,  rgba(246,230,180,1) 0%,rgba(237,144,23,1) 100%);
-  background: linear-gradient(135deg,  rgba(246,230,180,1) 0%,rgba(237,144,23,1) 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f6e6b4', endColorstr='#ed9017',GradientType=1 );
-}
-
-ol, ul {
-  list-style: none;
-}
-
-blockquote, q {
-  quotes: none;
-}
-
-blockquote:before, blockquote:after, q:before, q:after {
-  content: '';
-  content: none;
-}
-
-table {
-  border-collapse: collapse;
-  border-spacing: 0;
-}
-
-
-/* End of CSS Reset */
-
-article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, section, summary {
-  display: block;
-}
-
-body {
-  font: 2vh/2vh Arial, sans-serif;
-}
-
-.wrapper {
-  min-width: 100vw;
-  width: 100%;
-}
-
-.container {
-  width: 100%;
-  float: left;
-  overflow: hidden;
-}
-
 .oval {
   margin: auto;
   text-align: center;
@@ -220,4 +156,7 @@ div#playerHand .playingCards a.card:hover, .playingCards a.card:active, .playing
   -moz-box-shadow: .2em .2em .5em #333;
   -webkit-box-shadow: .2em .2em .5em #333;
   box-shadow: .2em .2em .5em #333;
+}
+.cannotPLay {
+
 }
